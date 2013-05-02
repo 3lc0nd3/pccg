@@ -13,7 +13,7 @@
 
     <context-param>
         <param-name>webAppRootKey</param-name>
-        <param-value>pneig</param-value>
+        <param-value>pccg</param-value>
     </context-param>
 
     <listener>

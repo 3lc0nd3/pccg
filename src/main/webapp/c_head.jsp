@@ -32,8 +32,8 @@
     <!-- Colors - Orange, Purple, Green and Blue -->
     <%--<link href="style/orange.css" rel="stylesheet">--%>
     <%--<link href="style/purple.css" rel="stylesheet">--%>
-    <%--<link href="style/green.css" rel="stylesheet">--%>
-    <link href="style/blue.css" rel="stylesheet">
+    <link href="style/green.css" rel="stylesheet">
+    <%--<link href="style/blue.css" rel="stylesheet">--%>
 
     <link href="style/bootstrap-responsive.css" rel="stylesheet">
     <link href="js/datePicker/datepicker.css" rel="stylesheet">

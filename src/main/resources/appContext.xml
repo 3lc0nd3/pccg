@@ -38,10 +38,10 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.connection.url">jdbc:mysql://localhost/pn</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost/pccg</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-                <prop key="hibernate.connection.username">pn</prop>
-                <prop key="hibernate.connection.password">pn</prop>
+                <prop key="hibernate.connection.username">pccg</prop>
+                <prop key="hibernate.connection.password">pccg</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <!--<prop key="hibernate.show_sql">true</prop>-->
                 <prop key="hibernate.connection.autocommit">true</prop>
