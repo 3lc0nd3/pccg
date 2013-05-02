@@ -23,7 +23,7 @@
 <%
     if (persona == null) {
 %>
-<jsp:include page="c_slider01.jsp"/>
+<%--<jsp:include page="c_slider01.jsp"/>--%>
 <%
     }
 %>
