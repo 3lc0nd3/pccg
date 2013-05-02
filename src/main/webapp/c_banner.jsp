@@ -13,6 +13,7 @@
         dwr.util.byId("exitF").submit();
 
     }
+
 </script>
 <header>
     <div class="container">
