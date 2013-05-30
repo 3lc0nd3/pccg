@@ -22,11 +22,16 @@
 
     boolean hayDatosEvaluadores = true;
     for (Empleado evaluador: evaluadores){
+        System.out.println("evaluador.getIdEmpleado() = " + evaluador.getIdEmpleado());
+        System.out.println("evaluador.getPersonaByIdPersona().getNombreCompleto() = " + evaluador.getPersonaByIdPersona().getNombreCompleto());
         List<PnCuantitativa> cuantitativaEval = pnManager.getCuantitativaIndividualFromEmpleado(
                 evaluador.getIdEmpleado());
 //        System.out.println("cuantitativaEval.size() = " + cuantitativaEval.size());
         if(cuantitativaEval.size() == 0){
             hayDatosEvaluadores = false;
+            System.out.println("--------- 0");
+        } else {
+            System.out.println("--------- 1");
         }
         otros.add(cuantitativaEval);
     }
@@ -246,7 +251,14 @@
 
                 <%
                     }
-                }
+                } else { // FALTA UN DATO
+                %>
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Por lo menos un Evaluador no ha Completado la Eval. Items Individual.
+                </div>
+                <%
+                    }
                 %>
             </div>
             <div class="span4">
