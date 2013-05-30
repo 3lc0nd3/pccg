@@ -256,6 +256,7 @@
                 <div class="alert">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Por lo menos un Evaluador no ha Completado la Eval. Items Individual.
+
                 </div>
                 <%
                     }
