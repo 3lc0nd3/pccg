@@ -1442,14 +1442,19 @@ public class PnDAO extends HibernateDaoSupport{
         logger.info("aspirante.getApellido() = " + aspirante.getApellido());
         try {
             Persona aspiranteOld = getPersonaFromDoc(aspirante.getDocumentoIdentidad());
-            if(aspiranteOld != null){
+            if(aspiranteOld != null){ // YA EXISTIA
                 aspirante = aspiranteOld;
+                aspirante.setAspiranteEvaluador(true);
+                getHibernateTemplate().update(aspirante);
             } else { // NO EXISTE
                 aspirante.setEstado(false);
                 aspirante.setLocCiudadByIdCiudad(getCiudad(0));
                 aspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+                aspirante.setAspiranteEvaluador(true);
+
                 int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
                 aspirante.setIdPersona(idAspirante);
+
             }
             notificaEvaluadorAspiranteRegitro(aspirante);
             return 1;

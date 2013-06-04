@@ -1,11 +1,11 @@
-/* Green */
+/* Green 41b b19 */
 
 body{
-	border-top: 3px solid #41bb19;
+	border-top: 3px solid #3eb01a;
 }
 
 a, a:visited{
-	color: #41bb19;
+	color: #3eb01a;
 }
 
 a:hover{
@@ -13,15 +13,15 @@ a:hover{
 }
 
 blockquote{
-	border-left: 4px solid #41bb19;
+	border-left: 4px solid #3eb01a;
 }
 
 .color{
-	color: #41bb19;	
+	color: #3eb01a;
 }
 
 .navbar .btn{
-background:#41bb19 !important;  
+background:#3eb01a !important;
 }
 
 .navbar .btn:hover{
@@ -29,8 +29,8 @@ background:#379e15 !important;
 }
 
 .da-slider{
-	border-top: 3px solid #41bb19;
-	border-bottom: 3px solid #41bb19;
+	border-top: 3px solid #3eb01a;
+	border-bottom: 3px solid #3eb01a;
 }
 
 .da-slide h2 span{
@@ -38,7 +38,7 @@ background:#379e15 !important;
 }
 
 .da-slide .da-link{
-	background: #41bb19;
+	background: #3eb01a;
 }	
 
 .da-slide .da-link:hover{
@@ -46,15 +46,15 @@ background:#379e15 !important;
 }
 
 .da-dots span{
-	background: #41bb19;
+	background: #3eb01a;
 }
 
 .da-arrows span{
-	background: #41bb19;
+	background: #3eb01a;
 }
 
 .home-product{
-	background: #41bb19;
+	background: #3eb01a;
 }
 
 .home-product .home-prod-img{
@@ -66,12 +66,12 @@ background:#379e15 !important;
 }
 
 #portfolio .pcap{
-	background:#41bb19;
+	background:#3eb01a;
 	border-top: 2px solid #379e15;
 }
 
 .social-links{
-	background: #41bb19;	
+	background: #3eb01a;
 }
 
 .social-links i{
@@ -79,11 +79,11 @@ background:#379e15 !important;
 }
 
 .formy{
-	background: #41bb19;
+	background: #3eb01a;
 }
 
 .button a, .button a:visited{
-	background: #41bb19;
+	background: #3eb01a;
 }
 
 .button a:hover{
@@ -91,7 +91,7 @@ background:#379e15 !important;
 }	
 
 .paging a:hover{
-	background: #41bb19;
+	background: #3eb01a;
 }
 
 .paging .current{

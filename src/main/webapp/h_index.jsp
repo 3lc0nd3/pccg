@@ -8,7 +8,6 @@
     Empleado empleo = (Empleado) session.getAttribute("empleo");
 
     Texto texto = pnManager.getTexto(1);
-    Texto textoRegistro = pnManager.getTexto(10);
     PnPremio premioActivo = pnManager.getPnPremioActivo();
 
     String mensajeLogin = (String) request.getAttribute("mensajeLogin");
@@ -116,9 +115,9 @@
             <p class="big grey">
                 <%=texto.getTexto2()%>
             </p>
-            <p style="text-align:justify;">
+            <span style="text-align:justify;">
                 <%=texto.getTexto3()%>
-            </p>
+            </span>
 
         </div>
     </div>
@@ -126,414 +125,11 @@
 
 <%--  END LOGIN  --%>
 
-<div class="border"></div>
 
 <%--  REGISTER  --%>
 <%
     if(premioActivo !=null && persona== null){ // SI HAY UN PnPREMIO ACTIVO
 %>
-<div class="register">
-    <div class="row">
-        <div class="span4">
-            <h2>
-                <%=textoRegistro.getTexto1()%>
-            </h2>
-            <p class="big grey">        
-                <%=textoRegistro.getTexto2()%>
-                a la versi&oacute;n <%=premioActivo.getNombrePremio()%>
-            </p>
-            <p style="text-align:justify;">
-                <%=textoRegistro.getTexto3()%>
-            </p>
-
-        </div>
-        <div class="span8">
-            <div class="formy">
-                <div class="form">
-                    <!-- Register form (not working)-->
-                    <form id="registroP" class="form-horizontal" autocomplete="off">
-                        <h5>Datos generales organizaci&oacute;n postulante</h5>
-                        <!-- nit -->
-                        <div class="control-group">
-                            <label class="control-label" for="nit">Nit</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" <%--max="36" min="23"--%> id="nit" name="nit">
-                            </div>
-                        </div>
-                        <!-- nombre empresa-->
-                        <div class="control-group">
-                            <label class="control-label" for="nombreEmpresa">Nombre o Raz&oacute;n Social</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="nombreEmpresa" name="nombreEmpresa">
-                            </div>
-                        </div>
-
-                        <!-- departamento -->
-                        <div class="control-group">
-                            <label class="control-label" for="departamento">Departamento</label>
-                            <div class="controls">
-                                <select id="departamento" onchange="changeEstado();">
-                                    <%
-                                        for (LocEstado estado: pnManager.getLocEstados()){
-                                    %>
-                                    <option value="<%=estado.getIdEstado()%>"><%=estado.getNombreEstado()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select box -->
-                        <div class="control-group">
-                            <label class="control-label" for="locCiudadEmpresa">Ciudad</label>
-                            <div class="controls">
-                                <select id="locCiudadEmpresa"  name="locCiudadEmpresa" ><%--***********--%>
-                                    <option value="0">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- direccion empresa -->
-                        <div class="control-group">
-                            <label class="control-label required" for="direccionEmpresa">Direcci&oacute;n</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="direccionEmpresa" name="direccionEmpresa">
-                            </div>
-                        </div>
-
-                        <!-- telFijoEmpresa -->
-                        <div class="control-group">
-                            <label class="control-label required" for="telFijoEmpresa">Tel&eacute;fono Fijo</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="telFijoEmpresa" name="telFijoEmpresa">
-                            </div>
-                        </div>
-
-                        <!-- telMovilEmpresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="telMovilEmpresa">Tel&eacute;fono M&oacute;vil</label>
-                            <div class="controls">
-                                <input type="text" class="input-large digits" id="telMovilEmpresa" name="telMovilEmpresa" maxlength="10" min="3000000000">
-                            </div>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="control-group">
-                            <label class="control-label" for="emailEmpresa">Email</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required email" id="emailEmpresa" name="emailEmpresa">
-                            </div>
-                        </div>
-
-                        <!-- webEmpresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="webEmpresa">P&aacute;gina Web</label>
-                            <div class="controls">
-                                <input type="text" class="input-large url" id="webEmpresa" name="webEmpresa" placeholder="http://">
-                            </div>
-                        </div>
-
-                        <!-- actividadPrincipal -->
-                        <div class="control-group">
-                            <label class="control-label" for="actividadPrincipal">Actividad Principal</label>
-                            <div class="controls">
-                                <!--<input type="text" class="input-large required" id="actividadPrincipal" name="actividadPrincipal">-->
-                                <textarea  class="input-large required" id="actividadPrincipal" name="actividadPrincipal"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- productos -->
-                        <div class="control-group">
-                            <label class="control-label" for="productos">Productos</label>
-                            <div class="controls">
-                                <!--<input type="text" class="input-large required" id="productos" name="productos"> -->
-                                <textarea  class="input-large required" id="productos" name="productos"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- productos -->
-                        <div class="control-group">
-                            <label class="control-label" for="marcas">Marcas</label>
-                            <div class="controls">
-                                <!--<input type="text" class="input-large required" id="marcas" name="marcas">-->
-                                <textarea  class="input-large required" id="marcas" name="marcas"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- alcanceMercado -->
-                        <div class="control-group">
-                            <label class="control-label" for="alcanceMercado">Alcance del Mercado</label>
-                            <div class="controls">
-                                <select id="alcanceMercado"  name="alcanceMercado">
-                                    <option value="0">Seleccione...</option>
-                                    <option value="1">Nacional</option>
-                                    <option value="2">Internacional</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- empleados -->
-                        <div class="control-group">
-                            <label class="control-label" for="empleados">N&uacute;mero de Empleados</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required digits" id="empleados" name="empleados">
-                            </div>
-                        </div>
-
-                        <!-- valorActivos -->
-                        <div class="control-group">
-                            <label class="control-label" for="valorActivos">Valor de Activos</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required currency" id="valorActivos" name="valorActivos">
-                            </div>
-                        </div>
-
-                        <!-- idEmpresaCategoria  -->
-                        <div class="control-group">
-                            <label class="control-label" for="idEmpresaCategoria">Categor&iacute;a</label>
-                            <div class="controls">
-                                <select id="idEmpresaCategoria" name="idEmpresaCategoria" onchange="">
-                                    <option value="0">Seleccione...</option>
-                                    <%
-                                        for (EmpresaCategoria categoria: pnManager.getEmpresaCategorias()){
-                                    %>
-                                    <option value="<%=categoria.getId()%>"><%=categoria.getCategoria()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- idEmpresaCategoriaTamano  -->
-                        <div class="control-group">
-                            <label class="control-label" for="idEmpresaCategoriaTamano">Tama&ntilde;o de la Empresa</label>
-                            <div class="controls">
-                                <select id="idEmpresaCategoriaTamano"  name="idEmpresaCategoriaTamano"  onchange="">
-                                    <option value="0">Seleccione...</option>
-                                    <%
-                                        for (EmpresaCategoriaTamano tamano: pnManager.getEmpresaCategoriaTamanos()){
-                                    %>
-                                    <option value="<%=tamano.getId()%>"><%=tamano.getTamano()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- publicaEmpresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="publicaEmpresa">Es Empresa P&uacute;blica</label>
-                            <div class="controls">
-                                <select id="publicaEmpresa" name="publicaEmpresa" onchange="changeEstado();">
-                                    <option value="0">Seleccione...</option>
-                                    <option value="1">Si</option>
-                                    <option value="2">No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <%--<!-- informe de postulacion-->
-                        <div class="control-group">
-                            <label class="control-label" for="fileInformePostulacionFile">Informe de Postulaci&oacute;n PDF</label>
-                            <div class="controls">
-                                <input type="file" class=" required" name="fileInformePostulacionFile" id="fileInformePostulacionFile">
-                            </div>
-                        </div>
-
-                        <!-- certificado const Empresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="fileCertificadoConstitucionFile">Certificado Constituci&oacute;n Legal PDF</label>
-                            <div class="controls">
-                                <input type="file" class=" required" name="fileCertificadoConstitucionFile" id="fileCertificadoConstitucionFile">
-                            </div>
-                        </div>
-
-                        <!-- fileEstadoFinanciero Empresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="fileEstadoFinancieroFile">Estados Financieros (3 a&ntilde;os) PDF</label>
-                            <div class="controls">
-                                <input type="file" class=" required"  name="fileEstadoFinancieroFile" id="fileEstadoFinancieroFile">
-                            </div>
-                        </div>
-
-                        <!-- fileConsignacion Empresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="fileConsignacionFile">Recibo de Consignaci&oacute;n (50%) PDF</label>
-                            <div class="controls">
-                                <input type="file" class=" required"  name="fileConsignacionFile" id="fileConsignacionFile">
-                            </div>
-                        </div>--%>
-
-                        <h5>Datos del Primer Directivo</h5>
-
-                        <!-- Documento de Identidad -->
-                        <div class="control-group">
-                            <label class="control-label" for="documentoDirectivo">Documento Identidad</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="documentoDirectivo" name="documentoDirectivo">
-                            </div>
-                        </div>
-
-                        <!-- Nombre Directivo-->
-                        <div class="control-group">
-                            <label class="control-label" for="nombreDirectivo">Nombre</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="nombreDirectivo" name="nombreDirectivo">
-                            </div>
-                        </div>
-
-                        <!-- Apellido Directivo-->
-                        <div class="control-group">
-                            <label class="control-label" for="apellidoDirectivo">Apellido</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="apellidoDirectivo" name="apellidoDirectivo">
-                            </div>
-                        </div>
-
-                        <!-- TElefono Directivo-->
-                        <div class="control-group">
-                            <label class="control-label" for="telefonoDirectivo">Tel&eacute;fono Directo</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="telefonoDirectivo" name="telefonoDirectivo">
-                            </div>
-                        </div>
-
-                        <!-- telMovil Directivo -->
-                        <div class="control-group">
-                            <label class="control-label" for="telMovilDirectivo">Tel&eacute;fono M&oacute;vil</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required digits" id="telMovilDirectivo" name="telMovilDirectivo" maxlength="10" min="3000000000">
-                            </div>
-                        </div>
-
-                        <!-- Email Directivo-->
-                        <div class="control-group">
-                            <label class="control-label" for="emailDirectivo">Email</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required email" id="emailDirectivo" name="emailDirectivo">
-                            </div>
-                        </div>
-
-                        <h5>Datos del Encargado del Proceso</h5>
-
-                        <!-- Documento de Identidad Empleado -->
-                        <div class="control-group">
-                            <label class="control-label" for="documentoEmpleado">Documento Identidad</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="documentoEmpleado" name="documentoEmpleado">
-                            </div>
-                        </div>
-
-                        <!-- Nombre Empleado-->
-                        <div class="control-group">
-                            <label class="control-label" for="nombreEmpleado">Nombre</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="nombreEmpleado" name="nombreEmpleado">
-                            </div>
-                        </div>
-
-                        <!-- Apellido Empleado-->
-                        <div class="control-group">
-                            <label class="control-label" for="apellidoEmpleado">Apellido</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="apellidoEmpleado" name="apellidoEmpleado">
-                            </div>
-                        </div>
-
-                        <!-- TElefono Empleado-->
-                        <div class="control-group">
-                            <label class="control-label" for="telefonoEmpleado">Tel&eacute;fono Directo</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="telefonoEmpleado" name="telefonoEmpleado">
-                            </div>
-                        </div>
-
-                        <!-- telMovil Empleado -->
-                        <div class="control-group">
-                            <label class="control-label" for="telMovilEmpleado">Tel&eacute;fono M&oacute;vil</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required digits" id="telMovilEmpleado" name="telMovilEmpleado" maxlength="10" min="3000000000">
-                            </div>
-                        </div>
-
-                        <!-- Email Empleado-->
-                        <div class="control-group">
-                            <label class="control-label" for="emailCorpEmpleado">Email Corporativo</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required email" id="emailCorpEmpleado" name="emailCorpEmpleado">
-                            </div>
-                        </div>
-
-                        <!-- Email Personal Empleado-->
-                        <div class="control-group">
-                            <label class="control-label" for="emailPersonalEmpleado">Email Personal</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required email" id="emailPersonalEmpleado" name="email-Personal-Empleado">
-                            </div>
-                        </div>
-
-                        <!-- cargo Empleado  -->
-                        <div class="control-group">
-                            <label class="control-label" for="idCargoEmpleado">Cargo en la Empresa</label>
-                            <div class="controls">
-                                <select id="idCargoEmpleado" name="idCargoEmpleado" onchange="">
-                                    <option value="0">Seleccione...</option>
-                                    <%
-                                        for (CargoEmpleado cargoEmpleado: pnManager.getCargoEmpleadosParticipante()){
-                                    %>
-                                    <option value="<%=cargoEmpleado.getId()%>"><%=cargoEmpleado.getCargo()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <!-- Username -->
-                        <%--<div class="control-group">
-                            <label class="control-label" for="username">Username</label>
-                            <div class="controls">
-                                <input type="text" class="input-large" id="username">
-                            </div>
-                        </div>--%>
-                        <!-- Password -->
-                        <%--<div class="control-group">
-                            <label class="control-label" for="password">Password</label>
-                            <div class="controls">
-                                <input type="password" class="input-large" id="password">
-                            </div>
-                        </div>--%>
-                        <!-- Checkbox -->
-                        <div class="control-group">
-                            <div class="controls">
-                                <label class="checkbox inline">
-                                    <input type="checkbox" id="inlineCheckbox1" name="inlineCheckbox1" class="required" value="agree">
-                                    Acepto T&eacute;rminos y Condiciones
-                                </label>
-                            </div>
-                        </div>
-
-
-
-                        <!-- Buttons -->
-                        <div class="form-actions">
-                            <!-- Buttons -->
-                            <%--<button type="button" class="btn" onclick="registraP();">Registrar</button>--%>
-                            <%--<input class="btn" type="submit" value=""/>--%>
-                            <button id="b2" type="submit" class="btn">Registrar</button>
-                            <%--<button type="reset" class="btn">Reset</button>--%>
-                        </div>
-                    </form>
-                    <%--Already have an Account? <a href="login.html">Login</a>--%>
-                </div> <%--  END DIV FORM  --%>
-            </div><%--  END FORMY  --%>
-
-        </div>
-    </div>
-</div>
 
 
 <div class="border"></div>
@@ -542,112 +138,27 @@
 %>
 <%
     if(persona == null){ // SOLO SI NO HAY PERSONA
-        Texto textoEvaluador = pnManager.getTexto(15);
+
 %>
-<registroEval>
-    <div class="row">
-
-        <div class="span8">
-            <div class="formy">
-                <div class="form">
-                    <!-- Register form (not working)-->
-                    <form id="registroEvaluador" class="form-horizontal" autocomplete="off">
-                        <A name="registro"></A>
-                        <h5>Datos del Aspirante a Evaluador</h5>
-
-                        <!-- Documento de Identidad Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="documentoAspirante">Documento Identidad</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="documentoAspirante" name="documentoAspirante">
-                            </div>
-                        </div>
-
-                        <!-- Nombre Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="nombreAspirante">Nombre</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="nombreAspirante" name="nombreAspirante">
-                            </div>
-                        </div>
-
-                        <!-- Apellido Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="apellidoAspirante">Apellido</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="apellidoAspirante" name="apellidoAspirante">
-                            </div>
-                        </div>
-
-                        <!-- TElefono Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="telefonoAspirante">Tel&eacute;fono Directo</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="telefonoAspirante" name="telefonoAspirante">
-                            </div>
-                        </div>
-
-                        <!-- telMovilAspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="telMovilAspirante">Tel&eacute;fono M&oacute;vil</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required digits" id="telMovilAspirante" name="telMovilAspirante" maxlength="10" min="3000000000">
-                            </div>
-                        </div>
-
-                        <!-- Email Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="emailCorpAspirante">Email Corporativo</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required email" id="emailCorpAspirante" name="emailCorpAspirante">
-                            </div>
-                        </div>
-
-                        <!-- Email Personal Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="emailPersonalAspirante">Email Personal</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required email" id="emailPersonalAspirante" name="email-Personal-Aspirante">
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <div class="controls">
-                                <label class="checkbox inline">
-                                    <input type="checkbox" id="inlineCheckboxEval" name="inlineCheckboxEval" class="required" value="agree">
-                                    Acepto T&eacute;rminos y Condiciones
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Buttons -->
-                        <div class="form-actions">
-                            <!-- Buttons -->
-                            <%--<button type="button" class="btn" onclick="registraP();">Registrar</button>--%>
-                            <%--<input class="btn" type="submit" value=""/>--%>
-                            <button id="b3" type="submit" class="btn">Registrar</button>
-                            <%--<button type="reset" class="btn">Reset</button>--%>
-                        </div>
-                    </form>
-                    <%--Already have an Account? <a href="login.html">Login</a>--%>
-                </div> <%--  END DIV FORM  --%>
-            </div><%--  END FORMY  --%>
-
-        </div>
-        <div class="span4">
-
-            <h2>
-                <%=textoEvaluador.getTexto1()%>
-            </h2>
-            <p class="big grey">
-                <%=textoEvaluador.getTexto2()%>
-            </p>
-            <p style="text-align:justify;">
-                <%=textoEvaluador.getTexto3()%>
-            </p>
-        </div>
+<div class="row">
+    <div class="span12" style="text-align: center">
+        <A name="registro"></A>
+        <h2>REGISTRO EN EL SISTEMA</h2>
+        <br>
+        <br>
     </div>
-</registroEval>
+</div>
+<div class="row">
+    <div class="span4" style="text-align: center">
+        <a href="registroEvaluador.htm" class="btn btn-primary" style="color: #ffffff; font-weight: bold">Registro Aspirante a <br>Evaluador</a>
+    </div>
+    <div class="span4" style="text-align: center">
+        <a href="formacionEmpresa.htm" class="btn btn-primary" style="color: #ffffff; font-weight: bold">Inscripci&oacute;n a Formaci&oacute;n<br>Empresa</a>
+    </div>
+    <div class="formacionPersona.htm" style="text-align: center">
+        <a href="" class="btn btn-primary" style="color: #ffffff; font-weight: bold">Inscripci&oacute;n a Formaci&oacute;n<br>Persona</a>
+    </div>
+</div>
 
 <%
     } // FIN REGISTRA EVALUADOR

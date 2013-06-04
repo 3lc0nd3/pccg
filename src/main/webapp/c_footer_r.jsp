@@ -88,12 +88,13 @@
                         <%=titulo.getTexto1()%>
                         <span class="color">
                             <%=titulo.getTexto2()%>
-                        </span> - <%=titulo1.getTexto1()%>
+                        </span>
+                        <%--- <%=titulo1.getTexto1()%>--%>
                     </h5>
                     <p>Copyright &copy;
                         <a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> </p>
-                    -
-                    <a href="http://www.premionacionalexcelencia.org" target="pnn">www.premionacionalexcelencia.org</a> </p>
+
+                    <a href="http://www.pccg.com.co" target="pccg">www.pccg.com.co</a> </p>
                 </div>
             </div>
         </div>

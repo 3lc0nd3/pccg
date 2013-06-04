@@ -180,6 +180,19 @@ public class Persona {
         this.password = password;
     }
 
+    private boolean isAspiranteEvaluador;
+
+    @Basic
+    @Column(name = "es_aspirante")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean isAspiranteEvaluador() {
+        return isAspiranteEvaluador;
+    }
+
+    public void setAspiranteEvaluador(boolean aspiranteEvaluador) {
+        isAspiranteEvaluador = aspiranteEvaluador;
+    }
+
     private boolean estado;
 
     @Basic
