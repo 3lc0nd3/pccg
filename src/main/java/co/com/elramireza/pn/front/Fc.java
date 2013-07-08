@@ -34,7 +34,11 @@ public class Fc extends HttpServlet{
         }
     }
 
-
+	/**
+	 * saca el nombre del servicio segun la URL o URI
+	 * @param request
+	 * @return
+	 */
     public static String reqMVC(HttpServletRequest request){
 //        System.out.println("request.getRequestURI() = " + request.getRequestURI());
         String requestURI = request.getRequestURI();
