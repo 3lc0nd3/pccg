@@ -13,7 +13,7 @@
 <div class="register">
     <div class="row">
         <div class="span6">
-            <h2>Registro Formaci&oacute; para Persona</h2>
+            <h2>Registro Formaci&oacute;n para Persona</h2>
             <h4><%=texto.getTexto1()%></h4>
             <p class="big grey">
                 <%=texto.getTexto2()%>
@@ -51,6 +51,32 @@
                             <label class="control-label" for="apellidoAspirante">Apellido</label>
                             <div class="controls">
                                 <input type="text" class="input-large required" id="apellidoAspirante" name="apellidoAspirante">
+                            </div>
+                        </div>
+
+                        <!-- departamento -->
+                        <div class="control-group">
+                            <label class="control-label" for="departamento">Departamento</label>
+                            <div class="controls">
+                                <select id="departamento" onchange="changeEstado();">
+                                    <%
+                                        for (LocEstado estado: pnManager.getLocEstados()){
+                                    %>
+                                    <option value="<%=estado.getIdEstado()%>"><%=estado.getNombreEstado()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Ciudad -->
+                        <div class="control-group">
+                            <label class="control-label" for="locCiudadPersona">Ciudad</label>
+                            <div class="controls">
+                                <select id="locCiudadPersona"  name="locCiudadPersona" ><%--***********--%>
+                                    <option value="0">Seleccione...</option>
+                                </select>
                             </div>
                         </div>
 
@@ -132,7 +158,8 @@
             telefonoAspirante : null,
             telMovilAspirante : null,
             emailCorpAspirante : null,
-            emailPersonalAspirante : null
+            emailPersonalAspirante : null,
+            locCiudadPersona : null
         };
         dwr.util.getValues(aspirante);
 
@@ -143,13 +170,11 @@
             telefonoFijo : aspirante.telefonoAspirante,
             celular : aspirante.telMovilAspirante,
             emailCorporativo : aspirante.emailCorpAspirante,
-            emailPersonal : aspirante.emailPersonalAspirante
+            emailPersonal : aspirante.emailPersonalAspirante,
+            locCiudadPersona : aspirante.locCiudadPersona
         };
 
-//        alert("personaAspirante.nombrePersona = " + personaAspirante.nombrePersona);
-//        alert("personaAspirante.apellido = " + personaAspirante.apellido);
-
-        pnRemoto.registroAspirante(personaAspirante, function(data){
+        pnRemoto.registroAspirante(personaAspirante, 9, function(data){
             if(data==1){
                 var formCS = dwr.util.byId("registroEvaluador");
                 formCS.reset();
@@ -161,5 +186,13 @@
             }
         });
 
+    }
+
+    function changeEstado(){
+        dwr.util.removeAllOptions("locCiudadPersona");
+        var idEstado = dwr.util.getValue("departamento");
+        pnRemoto.getLocCiudadesFromEstado(idEstado, function(data){
+            dwr.util.addOptions("locCiudadPersona", data, "idCiudad", "nombreCiudad");
+        });
     }
 </script>

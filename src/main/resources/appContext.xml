@@ -197,6 +197,7 @@
             <dwr:include method="cargoEmpleadosInterno"/>
             <dwr:include method="cargoEmpleadosParticipante"/>
             <dwr:include method="saveInscrito"/>
+            <dwr:include method="saveFormacionEmpresarial"/>
             <dwr:include method="getEmpresaFromNit"/>
             <dwr:include method="getPersonaFromDoc"/>
             <dwr:include method="getPnPremio"/>

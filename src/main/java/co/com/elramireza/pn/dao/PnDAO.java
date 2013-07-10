@@ -4,7 +4,6 @@ import co.com.elramireza.pn.model.*;
 import co.com.elramireza.pn.util.MyKey;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.io.FileTransfer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -22,7 +21,6 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 import static java.lang.String.format;
@@ -1160,6 +1158,39 @@ public class PnDAO extends HibernateDaoSupport{
 		return (Empleado) getHibernateTemplate().get(Empleado.class, idEmpleado);
 	}
 
+    public Empleado getEmpleadoFromValores(int idPersona,
+                                           int idParticipante,
+                                           int idPerfil,
+                                           int idCargo){
+
+        logger.info("idPersona = " + idPersona);
+        logger.info("idParticipante = " + idParticipante);
+        logger.info("idPerfil = " + idPerfil);
+        logger.info("idCargo = " + idCargo);
+
+        Object o[] = {
+                idPersona,
+                idParticipante,
+                idPerfil,
+                idCargo
+        };
+        List<Empleado> empleados = getHibernateTemplate().find(
+                "from Empleado where personaByIdPersona.id = ? " +
+                        "and participanteByIdParticipante.id = ? " +
+                        "and perfilByIdPerfil.id = ? " +
+                        "and cargoEmpleadoByIdCargo.id = ?",
+                o
+        );
+        if(empleados.size()>0){ //si hay
+            logger.debug(" = Si hay empleado");
+            return empleados.get(0);
+        } else {
+            logger.debug(" !!! NO hay empleado");
+            return null;
+        }
+
+    }
+
 	public String desvinculaEmpleado(int idEmpleado){
 		try {
 			Empleado empleado = getEmpleado(idEmpleado);
@@ -1222,7 +1253,7 @@ public class PnDAO extends HibernateDaoSupport{
 	public void notificaEmpleadoVinculo(Empleado empleado){
 		Persona personaByIdPersona = empleado.getPersonaByIdPersona();
 		logger.info("personaByIdPersona = " + personaByIdPersona);
-		String asunto = "Vinculado a PNEIG - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
+		String asunto = "Vinculado a PCCG - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
                 ", " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa();
 		logger.info("asunto = " + asunto);
 		String mensaje =
@@ -1422,13 +1453,16 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
-    public void notificaEvaluadorAspiranteRegitro(Persona aspirante){
-        String asunto = "Registro de Aspirante";
+    public void notificaEvaluadorAspiranteRegitro(Persona aspirante,
+                                                  String cargo){
+        String asunto = "Registro de " + cargo;
+
+//        cargo = ;
         String mensaje =
                 "Cordial saludo" +
                         "<br>" +
                         "<br>" +
-                        "Le informamos que hemos recibido su solicitud como Aspirante a Evaluador del PNEIG." +
+                        "Le informamos que hemos recibido su solicitud como " + cargo + " del PCCG." +
                         "<br>" +
                         "Estamos evaluando su solicitud, en breve le comunicaremos que pasos seguir." +
                         "<br>" +
@@ -1437,26 +1471,71 @@ public class PnDAO extends HibernateDaoSupport{
         enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
     }
 
-    public int registroAspirante(Persona aspirante){
+    /**
+     * Registra a un aspirante a Evaluador
+     * @param aspirante
+     * @return
+     */
+    public int registroAspirante(Persona aspirante, int idPerfil){
         logger.info("aspirante.getNombre = " + aspirante.getNombrePersona());
         logger.info("aspirante.getApellido() = " + aspirante.getApellido());
         try {
             Persona aspiranteOld = getPersonaFromDoc(aspirante.getDocumentoIdentidad());
             if(aspiranteOld != null){ // YA EXISTIA
+                logger.info("aspirante.getLocCiudadPersona() = " + aspirante.getLocCiudadPersona());
+                logger.info("aspiranteOld.getDocumentoIdentidad() = " + aspiranteOld.getDocumentoIdentidad());
+                logger.info("aspiranteOld.getNombreCompleto() = " + aspiranteOld.getNombreCompleto());
+                aspiranteOld.setLocCiudadByIdCiudad(getCiudad(aspirante.getLocCiudadPersona()));
+                aspiranteOld.setEmailCorporativo(aspirante.getEmailCorporativo());
+                aspiranteOld.setEmailPersonal(aspirante.getEmailPersonal());
+                aspiranteOld.setCelular(aspirante.getCelular());
+                aspiranteOld.setTelefonoFijo(aspirante.getTelefonoFijo());
+
                 aspirante = aspiranteOld;
-                aspirante.setAspiranteEvaluador(true);
+                if (idPerfil == 8) {
+                    aspirante.setAspiranteEvaluador(true);
+                }
+                logger.info("aspiranteOld.getLocCiudadByIdCiudad().getNombreCiudad() = " + aspiranteOld.getLocCiudadByIdCiudad().getNombreCiudad());
                 getHibernateTemplate().update(aspirante);
             } else { // NO EXISTE
                 aspirante.setEstado(false);
-                aspirante.setLocCiudadByIdCiudad(getCiudad(0));
+                aspirante.setLocCiudadByIdCiudad(getCiudad(aspirante.getLocCiudadPersona()));
                 aspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-                aspirante.setAspiranteEvaluador(true);
+
+                if (idPerfil == 8) {
+                    aspirante.setAspiranteEvaluador(true);
+                }
 
                 int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
                 aspirante.setIdPersona(idAspirante);
 
             }
-            notificaEvaluadorAspiranteRegitro(aspirante);
+            // vincular el Empleado
+            Participante participante = getParticipanteFormaciones();
+
+            //SOLO LO VINCULO SI NO EXISTIERA
+            if (getEmpleadoFromValores(aspirante.getIdPersona(),
+                    participante.getIdParticipante(),
+                    idPerfil,
+                    11) == null) {
+                Empleado empleadoEncargado = new Empleado();
+                empleadoEncargado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+                empleadoEncargado.setParticipanteByIdParticipante(participante);
+
+                CargoEmpleado cargoEncargado = getCargoEmpleado(11);
+                logger.debug("cargoEncargado.getCargo() = " + cargoEncargado.getCargo());
+                empleadoEncargado.setCargoEmpleadoByIdCargo(cargoEncargado);
+                empleadoEncargado.setPerfilByIdPerfil(getPerfil(idPerfil)); //
+                empleadoEncargado.setPersonaByIdPersona(aspirante);
+
+                Integer idEmpleado = (Integer) getHibernateTemplate().save(empleadoEncargado);
+            }
+
+            if (idPerfil == 8) {
+                notificaEvaluadorAspiranteRegitro(aspirante, "Aspirante a Evaluador");
+            } else {
+                notificaEvaluadorAspiranteRegitro(aspirante, "Formación para Persona");
+            }
             return 1;
         } catch (DataAccessException e) {
 
@@ -1492,6 +1571,163 @@ public class PnDAO extends HibernateDaoSupport{
             return 0;
         }
     }
+
+    public int saveFormacionEmpresarial(Empresa empresa,
+                                        Persona personaDirectivo,
+                                        Persona personaEncargadoFormacion){
+
+//		WebContext wctx = WebContextFactory.get();
+//        HttpSession session = wctx.getSession(true);
+//		ServletContext context = wctx.getServletContext();
+
+		logger.debug("empresa.getNit() = " + empresa.getNit());
+		logger.debug("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
+		logger.debug("empresa.getPublicaEmpresa() = " + empresa.getPublicaEmpresa());
+		logger.debug("empresa.getIdEmpresaCategoriaTamano() = " + empresa.getIdEmpresaCategoriaTamano());
+		empresa.setLocCiudadByIdCiudad(getCiudad(empresa.getLocCiudadEmpresa()));
+		logger.debug("empresa.getLocCiudadByIdCiudad().getNombreCiudad() = " + empresa.getLocCiudadByIdCiudad().getNombreCiudad());
+		logger.debug("empresa.getMarcas() = " + empresa.getMarcas());
+
+		try {
+			EmpresaCategoria categoriaEmpresa = getEmpresaCategoria(empresa.getIdEmpresaCategoria());
+			logger.debug("categoriaEmpresa.getCategoria() = " + categoriaEmpresa.getCategoria());
+			EmpresaCategoriaTamano empresaCategoriaTamano = getEmpresaCategoriaTamano(empresa.getIdEmpresaCategoriaTamano());
+			logger.debug("empresaCategoriaTamano.getTamano() = " + empresaCategoriaTamano.getTamano());
+
+			logger.debug("empresa.getFileCertificadoConstitucion() = " + empresa.getFileCertificadoConstitucion());
+			logger.debug("empresa.getFileConsignacion() = " + empresa.getFileConsignacion());
+			logger.debug("empresa.getFileEstadoFinancieroFile() = " + empresa.getFileEstadoFinancieroFile());
+
+			/*  DIRECTIVO  */
+
+			Persona directivoOld = getPersonaFromDoc(personaDirectivo.getDocumentoIdentidad());
+			if(directivoOld != null){  // SI EXISTE
+				personaDirectivo = directivoOld;
+			} else { // NO EXISTE
+				personaDirectivo.setEstado(false);
+				personaDirectivo.setEmailPersonal(personaDirectivo.getEmailCorporativo());
+				personaDirectivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
+				personaDirectivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+				int idDirectivo = (Integer) getHibernateTemplate().save(personaDirectivo);
+				personaDirectivo.setIdPersona(idDirectivo);
+			}
+
+			logger.info("personaDirectivo.getIdPersona() = " 			+ personaDirectivo.getIdPersona());
+			logger.debug("personaDirectivo.getDocumentoIdentidad() = " 	+ personaDirectivo.getDocumentoIdentidad());
+			logger.debug("personaDirectivo.getNombrePersona() = " 		+ personaDirectivo.getNombrePersona());
+			logger.debug("personaDirectivo.getApellido() = " 			+ personaDirectivo.getApellido());
+
+			/*  ENCARGADO  */
+
+			Persona empleadoOld = getPersonaFromDoc(personaEncargadoFormacion.getDocumentoIdentidad());
+			if(empleadoOld != null){       // SI EXISTE EN LA DB
+				// PARA QUE NO SE PIERDA EL CARGO LO TRAIGO DEL FORM
+				empleadoOld.setIdCargoEmpleado(personaEncargadoFormacion.getIdCargoEmpleado());
+				personaEncargadoFormacion = empleadoOld;
+			} else {
+				personaEncargadoFormacion.setEstado(false);
+				personaEncargadoFormacion.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
+				personaEncargadoFormacion.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+				int idEmpleado = (Integer) getHibernateTemplate().save(personaEncargadoFormacion);
+				personaEncargadoFormacion.setIdPersona(idEmpleado);
+			}
+
+			logger.debug("personaEncargadoFormacion.getIdPersona() = " + personaEncargadoFormacion.getIdPersona());
+			logger.debug("personaEncargadoFormacion.getDocumentoIdentidad() = " + personaEncargadoFormacion.getDocumentoIdentidad());
+			logger.debug("personaEncargadoFormacion.getNombrePersona() = "	 	+ personaEncargadoFormacion.getNombrePersona());
+			logger.debug("personaEncargadoFormacion.getIdCargoEmpleado() = " 	+ personaEncargadoFormacion.getIdCargoEmpleado());
+
+			/*  EMPRESA  */
+
+			Empresa empresaOld = getEmpresaFromNit(empresa.getNit());
+			if(empresaOld != null){
+                empresaOld.setDireccionEmpresa(empresa.getDireccionEmpresa());
+                empresaOld.setTelFijoEmpresa(empresa.getTelFijoEmpresa());
+                empresaOld.setTelMovilEmpresa(empresa.getTelMovilEmpresa());
+                empresaOld.setEmailEmpresa(empresa.getEmailEmpresa());
+                empresaOld.setWebEmpresa(empresa.getWebEmpresa());
+                empresaOld.setActividadPrincipal(empresa.getActividadPrincipal());
+                empresaOld.setEmpleados(empresa.getEmpleados());
+                empresaOld.setValorActivos(empresa.getValorActivos());
+//                empresaOld.set(empresa.get());
+				empresa = empresaOld;
+                getHibernateTemplate().update(empresa);
+			} else {
+				empresa.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+				empresa.setTipoEmpresaByIdTipoEmpresa(getTipoEmpresa(2));
+				empresa.setEstado(false); // sin aprovar
+				empresa.setEmpresaCategoriaByIdCategoriaEmpresa(categoriaEmpresa);
+				empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(empresaCategoriaTamano);
+				logger.info("est 1");
+				int idEmpresa = (Integer) saveEmpresa(empresa);
+				empresa.setIdEmpresa(idEmpresa);
+			}
+
+			/*  PARTICIPANTE  */
+
+            PnPremio premioActivo = getPnPremioActivo();
+
+			Participante participante = getParticipante(empresa.getIdEmpresa(), premioActivo.getIdPnPremio());
+
+            // IF NO EXISTE EL PARTICIPANTE PARA ESA EMPRESA
+            if (participante == null) {
+                participante = new Participante();
+                participante.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+                participante.setEstado(false); // HAY QUE ACTIVARLO
+                participante.setObservaciones("Registro Web");
+                participante.setEmpresaByIdEmpresa(empresa);
+                participante.setPnPremioByIdConvocatoria(premioActivo);
+                participante.setPnEtapaParticipanteByIdEtapaParticipante(
+                        getPnEtapaParticipante(1));
+
+                int idParticipante = (Integer) getHibernateTemplate().save(participante);
+                logger.debug("idParticipante nuevo = " + idParticipante);
+                participante.setIdParticipante(idParticipante);
+            }
+
+
+            // VINCULAR PERSONAL
+
+			/*  ENCARGADO  */
+			Empleado empleadoEncargado = new Empleado();
+			empleadoEncargado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+			empleadoEncargado.setParticipanteByIdParticipante(participante);
+			logger.debug("personaEncargadoFormacion.getIdCargoEmpleado() = " + personaEncargadoFormacion.getIdCargoEmpleado());
+			CargoEmpleado cargoEncargado = getCargoEmpleado(personaEncargadoFormacion.getIdCargoEmpleado());
+			logger.debug("cargoEncargado.getCargo() = " + cargoEncargado.getCargo());
+			empleadoEncargado.setCargoEmpleadoByIdCargo(cargoEncargado);
+			empleadoEncargado.setPerfilByIdPerfil(getPerfil(10)); // lider Proceso formacion
+			empleadoEncargado.setPersonaByIdPersona(personaEncargadoFormacion);
+
+			Integer idEncargado = (Integer) getHibernateTemplate().save(empleadoEncargado);
+			if(idEncargado != null){
+				notificaEmpleadoVinculo(empleadoEncargado);
+			}
+			empleadoEncargado.setIdEmpleado(idEncargado);
+
+			/*  DIRECTIVO  */
+			Empleado empleadoDirectivo = new Empleado();
+			empleadoDirectivo.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+			empleadoDirectivo.setParticipanteByIdParticipante(participante);
+			empleadoDirectivo.setCargoEmpleadoByIdCargo(getCargoEmpleado(4)); //TODO PERGUNTAR EN EL FORM REGISTRO POR ESTE CARGO
+			empleadoDirectivo.setPerfilByIdPerfil(getPerfil(5)); // DIRECTIVO
+			empleadoDirectivo.setPersonaByIdPersona(personaDirectivo);
+
+			Integer idDirectivo = (Integer) getHibernateTemplate().save(empleadoDirectivo);
+			if(idDirectivo != null){
+				notificaEmpleadoVinculo(empleadoDirectivo);
+			}
+			empleadoDirectivo.setIdEmpleado(idDirectivo);
+
+
+			return 1;
+		} catch (DataAccessException e) {
+			logger.info("e.getMessage() = " + e.getMessage());
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			return 0;
+		}
+	} /*  FIN INSCRIPCION  */
+
 
 	public int saveInscrito(Empresa empresa,
 							Persona personaDirectivo,
@@ -1709,6 +1945,65 @@ public class PnDAO extends HibernateDaoSupport{
         }
         return 0;
     }
+
+    /**
+     * verifico si existe un participante para esa empresa y
+     * el premio.
+     * @param idEmpresa id
+     * @param idPnPremio  id
+     * @return  null si no existe
+     */
+    public Participante getParticipante(int idEmpresa,
+                                        int idPnPremio){
+        Object o[] = {
+                idEmpresa,
+                idPnPremio};
+        List<Participante> participantes = getHibernateTemplate().find(
+                "from Participante where empresaByIdEmpresa.id = ? and " +
+                        "pnPremioByIdConvocatoria.id = ?",
+                o
+        );
+        if(participantes.size()>0){
+            return participantes.get(0);
+        } else {
+            return null;
+        }
+
+    }
+
+    /**
+     * Trae un Participante para Formaciones
+     * si no existe un participante para el premio actual crea uno nuevo
+     * @return
+     */
+    public Participante getParticipanteFormaciones(){
+        PnPremio premioActual = getPnPremioActivo();
+//        Empresa empresaFormacion = getEmpresa(2);
+        List<Participante> participantes = getHibernateTemplate().find(
+                "from Participante where empresaByIdEmpresa.id = 2 and " +
+                        "pnPremioByIdConvocatoria.id = ?",
+                premioActual.getIdPnPremio()
+        );
+        logger.info("participantes.size() = " + participantes.size());
+        if(participantes.size()>0){ // SI HAY
+            logger.info(" = ya existe el Participante Formaciones");
+            return participantes.get(0);
+        } else {
+            logger.info(" !!! NO existe el Participante Formaciones");
+            Participante participante = new Participante();
+            participante.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+            participante.setEstado(true); // HAY QUE ACTIVARLO
+            participante.setObservaciones("Nada");
+            participante.setEmpresaByIdEmpresa(getEmpresa(2));
+            participante.setPnPremioByIdConvocatoria(premioActual);
+            participante.setPnEtapaParticipanteByIdEtapaParticipante(
+                    getPnEtapaParticipante(1));
+            int idParticipante = (Integer) getHibernateTemplate().save(participante);
+            participante.setIdParticipante(idParticipante);
+            return participante;
+        }
+    }
+
     public int subeArchivoConsigna(byte[] fileConsignacionFile){
 
         WebContext wctx = WebContextFactory.get();
@@ -2031,7 +2326,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 	String email[][] = {
 			{"", ""},
-			{"premiogestion@gmail.com", "corca*123", "Mensajes PNEIG"},
+			{"premiogestion@gmail.com", "corca*123", "Mensajes PCCG"},
 			{  "", ""},
 			{"5", "6"}
 	};

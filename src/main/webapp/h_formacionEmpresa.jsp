@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<!-- Select box -->
+<!-- Ciudad -->
 <div class="control-group">
     <label class="control-label" for="locCiudadEmpresa">Ciudad</label>
     <div class="controls">
@@ -439,8 +439,8 @@ function revisaNit(){
 }
 
 function registraP(){
+    <%--TODO--%>
 //        disableId("b2");
-//        alert("Si o no");
     var empresa = {
         nit : null,
         nombreEmpresa : null,
@@ -511,7 +511,7 @@ function registraP(){
         idCargoEmpleado : encargado.idCargoEmpleado
     };
 
-    pnRemoto.saveInscrito(empresa, personaDirectivo, personaEncargado,
+    pnRemoto.saveFormacionEmpresarial(empresa, personaDirectivo, personaEncargado,
             function(data){
                 if(data == 1){
                     var formCS = dwr.util.byId("registroP");

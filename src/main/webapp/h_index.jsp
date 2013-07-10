@@ -155,8 +155,8 @@
     <div class="span4" style="text-align: center">
         <a href="formacionEmpresa.htm" class="btn btn-primary" style="color: #ffffff; font-weight: bold">Inscripci&oacute;n a Formaci&oacute;n<br>Empresa</a>
     </div>
-    <div class="formacionPersona.htm" style="text-align: center">
-        <a href="" class="btn btn-primary" style="color: #ffffff; font-weight: bold">Inscripci&oacute;n a Formaci&oacute;n<br>Persona</a>
+    <div class="span4" style="text-align: center">
+        <a href="formacionPersona.htm" class="btn btn-primary" style="color: #ffffff; font-weight: bold">Inscripci&oacute;n a Formaci&oacute;n<br>Persona</a>
     </div>
 </div>
 
