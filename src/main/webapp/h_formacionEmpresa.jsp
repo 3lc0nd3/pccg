@@ -440,7 +440,7 @@ function revisaNit(){
 
 function registraP(){
     <%--TODO--%>
-//        disableId("b2");
+    disableId("b2");
     var empresa = {
         nit : null,
         nombreEmpresa : null,

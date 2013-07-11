@@ -248,6 +248,14 @@ public class PnDAO extends HibernateDaoSupport{
         );
     }
 
+    public List<Empleado> getEmpleadosFormacionEquipo(int idParticipante){
+        return getHibernateTemplate().find(
+                "from Empleado where participanteByIdParticipante.id = ? " +
+                        "and ( perfilByIdPerfil.id = 10 or perfilByIdPerfil.id = 11 )",
+                idParticipante
+        );
+    }
+
     public List<Empleado> getEmpleadosFromParticipante(int idParticipante){
         return getHibernateTemplate().find(
                 "from Empleado where participanteByIdParticipante.idParticipante = ? ",
@@ -1476,7 +1484,7 @@ public class PnDAO extends HibernateDaoSupport{
      * @param aspirante
      * @return
      */
-    public int registroAspirante(Persona aspirante, int idPerfil){
+    public int registroAspirante(Persona aspirante, int idPerfil, int idParticipante){
         logger.info("aspirante.getNombre = " + aspirante.getNombrePersona());
         logger.info("aspirante.getApellido() = " + aspirante.getApellido());
         try {
@@ -1511,7 +1519,12 @@ public class PnDAO extends HibernateDaoSupport{
 
             }
             // vincular el Empleado
-            Participante participante = getParticipanteFormaciones();
+            Participante participante;
+            if (idParticipante == 0) {
+                participante = getParticipanteFormaciones();
+            } else {
+                participante = getParticipante(idParticipante);
+            }
 
             //SOLO LO VINCULO SI NO EXISTIERA
             if (getEmpleadoFromValores(aspirante.getIdPersona(),
@@ -1533,8 +1546,10 @@ public class PnDAO extends HibernateDaoSupport{
 
             if (idPerfil == 8) {
                 notificaEvaluadorAspiranteRegitro(aspirante, "Aspirante a Evaluador");
-            } else {
+            } else if(idPerfil == 9){
                 notificaEvaluadorAspiranteRegitro(aspirante, "Formación para Persona");
+            } else if(idPerfil == 11){
+                notificaEvaluadorAspiranteRegitro(aspirante, "Formación Empresarial");
             }
             return 1;
         } catch (DataAccessException e) {

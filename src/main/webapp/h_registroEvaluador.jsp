@@ -142,10 +142,17 @@
 
 <script type="text/javascript">
 
+    jQuery.validator.addMethod("selectNoZero", function(value, element, arg){
+        return "0" != value;
+    }, jQuery.validator.messages.required);
+
     jQuery(document).ready(function() {
         jQuery("#registroEvaluador").validate({
             submitHandler: function() {
                 registraEvaluador();
+            },
+            rules: {
+                locCiudadPersona:   "selectNoZero"
             }
         });
     });
@@ -184,7 +191,7 @@
             locCiudadPersona : aspirante.locCiudadPersona
         };
 
-        pnRemoto.registroAspirante(personaAspirante, 8, function(data){
+        pnRemoto.registroAspirante(personaAspirante, 8, 0, function(data){
             if(data==1){
                 var formCS = dwr.util.byId("registroEvaluador");
                 formCS.reset();
