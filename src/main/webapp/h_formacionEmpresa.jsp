@@ -16,7 +16,8 @@
     </h2>
     <p class="big grey">
         <%=textoRegistro.getTexto2()%>
-        a la versi&oacute;n <%=premioActivo.getNombrePremio()%>
+        <%--a la versi&oacute;n --%>
+        <%=premioActivo.getNombrePremio()%>
     </p>
     <p style="text-align:justify;">
         <%=textoRegistro.getTexto3()%>

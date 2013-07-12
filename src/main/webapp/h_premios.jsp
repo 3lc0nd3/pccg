@@ -76,7 +76,7 @@
             <th>Fecha Desde</th>
             <th>Fecha Hasta</th>
             <th>Estado Inscripci&oacute;n</th>
-            <th>Editar</th>
+            <th>Opciones</th>
         </tr>
         </thead>
         <%
@@ -100,6 +100,7 @@
             <td><img id="imgActiveInscripcion<%=premio.getIdPnPremio()%>" width="28" onclick="activaDesactiva(<%=premio.getIdPnPremio()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <img width="36" onclick="editaPremio(<%=premio.getIdPnPremio()%>);" src="img/edit.png" alt="edita" title="edita">
+                <img width="36" onclick="estudiantes(<%=premio.getIdPnPremio()%>);" src="images/estudiante.png" alt="Inscritos a Formacion" title="Inscritos a Formacion">
             </td>
         </tr>
         <%
@@ -108,10 +109,22 @@
     </table>
 </div>
 
+<br>
+<br>
+<div id="inscritos">
+
+</div>
+
 
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function estudiantes(cg){
+        frontController.getIncludeInscritosFormacion(cg, function(data){
+            dwr.util.setValue('inscritos', data, { escapeHtml:false })
+        });
+    }
 
     function activaDesactiva(id){
         if (id == 1) {
