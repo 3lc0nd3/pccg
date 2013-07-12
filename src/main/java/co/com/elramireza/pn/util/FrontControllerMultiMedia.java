@@ -93,6 +93,14 @@ public class FrontControllerMultiMedia {
         return wctx.forwardToString("/c_empresa_admon.jsp");
     }
 
+	/**
+	 * podran ver los inscritos en formacion del premio
+	 * solo para administrador
+	 * @param idPremio
+	 * @return
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	public String getIncludeInscritosFormacion(int idPremio) throws IOException, ServletException {
 		WebContext wctx = WebContextFactory.get();
 		wctx.getHttpServletRequest().setAttribute("idPremio", idPremio);
