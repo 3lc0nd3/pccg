@@ -23,13 +23,20 @@
             idPremio
     );
 
+    List<Empleado> formacionEvaluadores = pnManager.getHibernateTemplate().find(
+            "from Empleado where participanteByIdParticipante.pnPremioByIdConvocatoria.idPnPremio = ? and " +
+                    "(perfilByIdPerfil.id = 8 ) " +
+                    "order by perfilByIdPerfil.id, personaByIdPersona.nombrePersona, personaByIdPersona.apellido",
+            idPremio
+    );
+
 %>
 <b>Inscritos en el Premio</b>
 <h2><%=premio.getNombrePremio()%></h2>
 <br>
 <h3>Formaci&oacute;n Empresarial</h3>
 <br>
-<table border="1">
+<table border="1" width="90%">
 <%
     int lastEmpresarial = 0;
     for (Empleado empleadoEmpresarial : formacionEmpresarial){
@@ -82,7 +89,7 @@
 <br>
 <h3>Formaci&oacute;n Personal</h3>
 <br>
-<table border="1">
+<table border="1" width="90%">
     <tr>
         <th>Ciudad</th>
         <th> Doc. </th>
@@ -104,7 +111,48 @@
         <td><%=empleadoPersonal.getPersonaByIdPersona().getNombrePersona()%></td>
         <td><%=empleadoPersonal.getPersonaByIdPersona().getApellido()%></td>
         <td>
-            <%=empleadoPersonal.getPersonaByIdPersona().getEmailPersonal()!=null?empleadoPersonal   .getPersonaByIdPersona().getEmailPersonal():"" %>
+            <%=empleadoPersonal.getPersonaByIdPersona().getEmailPersonal()!=null?empleadoPersonal.getPersonaByIdPersona().getEmailPersonal():"" %>
+            <br>
+            <%=empleadoPersonal.getPersonaByIdPersona().getEmailCorporativo() %>
+        </td>
+        <td>
+            <%=empleadoPersonal.getPersonaByIdPersona().getCelular()!=null?empleadoPersonal.getPersonaByIdPersona().getCelular():""%>
+            <br>
+            <%=empleadoPersonal.getPersonaByIdPersona().getTelefonoFijo() %>
+        </td>
+        <td><%=empleadoPersonal.getPerfilByIdPerfil().getPerfil()%></td>
+        <td></td>
+    </tr>
+<%
+    }
+%>
+</table>
+<br>
+<h3>Formaci&oacute;n para Evaluadores</h3>
+<br>
+<table border="1" width="90%">
+    <tr>
+        <th>Ciudad</th>
+        <th> Doc. </th>
+        <th> Nombre </th>
+        <th> Apellido </th>
+        <th> Emails</th>
+        <%--<th> Email Personal</th>--%>
+        <th> Tel&eacute;fonos </th>
+        <%--<th> Celular </th>--%>
+        <th> Perfil </th>
+        <th width="28"> Opciones</th>
+    </tr>
+<%
+    for (Empleado empleadoPersonal: formacionEvaluadores){
+%>
+    <tr>
+        <td><%=empleadoPersonal.getPersonaByIdPersona().getLocCiudadByIdCiudad().getNombreCiudad()%></td>
+        <td><%=empleadoPersonal.getPersonaByIdPersona().getDocumentoIdentidad()%></td>
+        <td><%=empleadoPersonal.getPersonaByIdPersona().getNombrePersona()%></td>
+        <td><%=empleadoPersonal.getPersonaByIdPersona().getApellido()%></td>
+        <td>
+            <%=empleadoPersonal.getPersonaByIdPersona().getEmailPersonal()!=null?empleadoPersonal.getPersonaByIdPersona().getEmailPersonal():"" %>
             <br>
             <%=empleadoPersonal.getPersonaByIdPersona().getEmailCorporativo() %>
         </td>
