@@ -47,6 +47,7 @@
         <th colspan="8">
             <%=empleadoEmpresarial.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
         </th>
+
     </tr>
     <tr>
         <th>Ciudad</th>
