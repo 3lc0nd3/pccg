@@ -121,7 +121,7 @@
 <script type="text/javascript">
 
     function estudiantes(cg){
-        frontController.getIncludeInscritosFormacion(cg, function(data){
+        frontController.getInscritosFormacion(cg, function(data){
             dwr.util.setValue('inscritos', data, { escapeHtml:false })
         });
     }
