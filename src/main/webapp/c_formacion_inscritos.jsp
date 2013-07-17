@@ -1,14 +1,36 @@
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
     Integer idPremio = (Integer) request.getAttribute("idPremio");
+    boolean excel = false;
     if (idPremio == null) {
         idPremio = Integer.parseInt(request.getParameter("idPremio"));
+        excel = true;
     }
-    
+
     PnPremio premio = pnManager.getPnPremio(idPremio);
-    
+    if (excel) {
+
+        SimpleDateFormat dfL = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        String nombre = "formacion_"+premio.getNombrePremio()+"_"+dfL.format(new Date())+".doc";
+
+        response.setContentType( "application/x-download" );
+        response.setHeader("Content-type","application/vnd.ms-excel");
+        response.setHeader("Content-Disposition","attachment; filename=\""+ nombre + "\"");
+    } else {
+%>
+<A href="http://www.pccg.com.co/app/c_formacion_inscritos.jsp?idPremio=<%=idPremio%>">
+    Exportar a Excel <img src="img/excel.png" width="36" alt="Exportar">
+</A>
+<br>
+
+<%
+    }
+
+
     List<Empleado> formacionEmpresarial = pnManager.getHibernateTemplate().find(
             "from Empleado where participanteByIdParticipante.pnPremioByIdConvocatoria.idPnPremio = ? and " +
                     "(perfilByIdPerfil.id = 10  or perfilByIdPerfil.id = 11 ) " +
