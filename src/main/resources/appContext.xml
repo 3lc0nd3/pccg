@@ -245,6 +245,9 @@
             <dwr:include method="subeArchivoCLegal"/>
             <dwr:include method="subeArchivoConsigna"/>
             <dwr:include method="subeArchivoFinanciero"/>
+            <dwr:include method="saveCualitativa"/>
+            <dwr:include method="getPnCualitativa"/>
+            <dwr:include method="actualizaCualitativa"/>
             <dwr:include method="cambiaP"/>
 
             <!--LOS QUE NO VAN-->

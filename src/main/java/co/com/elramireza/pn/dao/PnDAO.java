@@ -411,6 +411,109 @@ public class PnDAO extends HibernateDaoSupport{
         return pnCualitativas;
     }
 
+    public static final String d = "";
+
+    /**
+     * Update un texto
+     * @param tipoFormato
+     * @param idCapitulo
+     * @param txt
+     * @param target nombre de la columna afectada. fortalezas oportunidades pendientesVisita vision
+     * @return
+     */
+    public PnCualitativa actualizaCualitativa(final int tipoFormato,
+                                              final int idCapitulo,
+                                              final String txt,
+                                              final String target){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        getHibernateTemplate().execute(new HibernateCallback() {
+            public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
+                String s =
+                        "update PnCualitativa set " + target + " = ? where empleadoByIdEmpleado.id = ? and tipoFormatoByIdTipoFormato.id = ? ";
+                if(idCapitulo != 0){
+                    s += " and pnCapituloByIdCapitulo.id = ?";
+                }
+                Query query = session.createQuery(
+                        s
+                );
+                query.setString(0, txt); // el nuevo texto
+                query.setInteger(1, empleado.getIdEmpleado()); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                query.setInteger(2, tipoFormato); // TIPO FORMATO
+                if(idCapitulo!=0){
+                    query.setInteger(3, idCapitulo); // TIPO FORMATO
+                }
+                query.executeUpdate();
+                return null;
+            }
+        });
+        return getPnCualitativa(tipoFormato, idCapitulo);
+    }
+
+    /**
+     * Get PnCualitativa
+     * @param tipoFormato
+     * @param idCapitulo 0 si es NULL para GLOBAL
+     * @return la PnCualitativa, si no existe, crea una vacia y la retorna. o Usar getPnCualitativaFromEmpleadoTipoFormato
+     */
+    public PnCualitativa getPnCualitativa(int tipoFormato,
+                                          int idCapitulo){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        if(idCapitulo == 0){
+            PnCualitativa cualitativa = getPnCualitativaFromEmpleadoTipoFormato(empleado.getIdEmpleado(), tipoFormato);
+            if(cualitativa == null){
+                return saveCualitativaVacia(tipoFormato, idCapitulo);
+            } else {
+                return cualitativa;
+            }
+        } else {
+            Object o[] = {empleado.getIdEmpleado(), tipoFormato, idCapitulo};
+            List<PnCualitativa> pnCualitativas = getHibernateTemplate().find(
+                    "from PnCualitativa where empleadoByIdEmpleado.idEmpleado = ? and tipoFormatoByIdTipoFormato.id = ? and " +
+                            "pnCapituloByIdCapitulo.id = ?",
+                    o
+            );
+            if(pnCualitativas.size()>0){
+                return pnCualitativas.get(0);
+            } else {
+                return saveCualitativaVacia(tipoFormato, idCapitulo);
+            }
+        }
+    }
+
+    public PnCualitativa saveCualitativaVacia(int tipoFormato,
+                                              int idCapitulo){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        PnCualitativa cualitativa = new PnCualitativa();
+
+        cualitativa.setTipoFormatoByIdTipoFormato(getTipoFormato(tipoFormato));
+        cualitativa.setParticipanteByIdParticipante(empleado.getParticipanteByIdParticipante());
+        cualitativa.setEmpleadoByIdEmpleado(empleado);
+        if(idCapitulo != 0){
+            cualitativa.setPnCapituloByIdCapitulo(getPnCapitulo(idCapitulo));
+        }
+        cualitativa.setFechaCreacion(timestamp);
+        cualitativa.setVision("");
+        cualitativa.setFortalezas("");
+        cualitativa.setOportunidades("");
+        cualitativa.setPendientesVisita("");
+
+        Integer id = (Integer) getHibernateTemplate().save(cualitativa);
+        System.out.println("id = " + id);
+        cualitativa.setId(id);
+        logger.info("cualitativa.getId() = " + cualitativa.getId());
+        return cualitativa;
+    }
+
     public PnCualitativa getPnCualitativaFromEmpleadoTipoFormato(int idEmpleado,
                                                                  int tipoFormato){
         Object o[] = {idEmpleado, tipoFormato};
