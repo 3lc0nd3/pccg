@@ -15,7 +15,7 @@
     if (excel) {
 
         SimpleDateFormat dfL = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String nombre = "formacion_"+premio.getNombrePremio()+"_"+dfL.format(new Date())+".doc";
+        String nombre = "formacion_"+premio.getNombrePremio()+"_"+dfL.format(new Date())+".xls";
 
         response.setContentType( "application/x-download" );
         response.setHeader("Content-type","application/vnd.ms-excel");

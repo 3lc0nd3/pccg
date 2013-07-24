@@ -19,5 +19,10 @@ public class Uno {
         System.out.println("g = " + g);
 
         System.out.println(Math.ceil(2.3));
+
+        String x = new String("Java");
+        String z = x.concat("Code");
+        System.out.println("x= " +x);
+        System.out.println("z = " + z);
     }
 }
