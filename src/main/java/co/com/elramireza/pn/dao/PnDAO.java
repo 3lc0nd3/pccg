@@ -425,15 +425,15 @@ public class PnDAO extends HibernateDaoSupport{
                                               final int idCapitulo,
                                               final String txt,
                                               final String target){
-		logger.info("tipoFormato = " + tipoFormato);
-		logger.info("idCapitulo = " + idCapitulo);
-		logger.info("txt = " + txt);
-		logger.info("target = " + target);
+		logger.debug("tipoFormato = " + tipoFormato);
+		logger.debug("idCapitulo = " + idCapitulo);
+		logger.debug("txt = " + txt);
+		logger.debug("target = " + target);
 
         WebContext wctx = WebContextFactory.get();
         HttpSession session = wctx.getSession(true);
         final Empleado empleado = (Empleado) session.getAttribute("empleo");
-		logger.info("empleado = " + empleado);
+		logger.debug("empleado = " + empleado);
 
 
         getHibernateTemplate().execute(new HibernateCallback() {
@@ -782,10 +782,6 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public int saveValoracionIndividualCapitulos(boolean definitivo,
-												 List<MyKey> visiones,
-												 List<MyKey> fortalezas,
-                                                 List<MyKey> opertunidades,
-                                                 List<MyKey> pendientes,
                                                  List<MyKey> valores
                                                  ){
 		logger.info("definitivo = " + definitivo);
@@ -814,17 +810,11 @@ public class PnDAO extends HibernateDaoSupport{
                     query.setInteger(1, 2);
                     query.executeUpdate();
 
-                    Query query1 = session.createQuery(
-                            "delete from PnCualitativa where empleadoByIdEmpleado.idEmpleado = ? and tipoFormatoByIdTipoFormato.id = ?");
-                    query1.setInteger(0, empleado.getIdEmpleado());
-                    query1.setInteger(1, 2);
-                    query1.executeUpdate();
                     return null;
                 }
             });
 
 			resetTableIncrement("pn_valoracion");
-			resetTableIncrement("pn_cualitativa");
 
 			TipoFormato tipoFormato = getTipoFormato(2);
 			for (MyKey key : valores) {
@@ -838,41 +828,6 @@ public class PnDAO extends HibernateDaoSupport{
                 valor.setValor(key.getValue());
                 valor.setFecha(timestamp);
                 getHibernateTemplate().save(valor);
-            }
-
-
-            for (int i = 0; i < fortalezas.size(); i++) {
-                MyKey keyVision      	= visiones.get(i);
-                MyKey keyFortaleza      = fortalezas.get(i);
-                MyKey keyOportunidad    = opertunidades.get(i);
-                MyKey keyPendiente      = pendientes.get(i);
-
-    //            logger.info("e.getKey() = " + keyFortaleza.getId() + "\te.getValue() = " + keyFortaleza.getValue() + "\tname " + keyFortaleza.getText());
-
-                PnCapitulo capitulo = getPnCapitulo(keyFortaleza.getId());
-                logger.debug("");
-                logger.debug("");
-                logger.debug("");
-                logger.debug("capitulo.getNombreCapitulo() = " + capitulo.getNombreCapitulo());
-
-                PnCualitativa cualitativa = new PnCualitativa();
-                cualitativa.setTipoFormatoByIdTipoFormato(tipoFormato);
-                cualitativa.setParticipanteByIdParticipante(empleado.getParticipanteByIdParticipante());
-                cualitativa.setEmpleadoByIdEmpleado(empleado);
-                cualitativa.setPnCapituloByIdCapitulo(capitulo);
-                cualitativa.setFechaCreacion(timestamp);
-
-//				logger.info("vision cap = " + keyVision.getText());
-				cualitativa.setVision(keyVision.getText());
-//                logger.debug("fortalezas = " + keyFortaleza.getText());
-                cualitativa.setFortalezas(keyFortaleza.getText());
-//                logger.debug("oportunidades = " + keyOportunidad.getText());
-                cualitativa.setOportunidades(keyOportunidad.getText());
-//                logger.debug("pendientesVisita = " + keyPendiente.getText());
-                cualitativa.setPendientesVisita(keyPendiente.getText());
-
-                Integer idCualitativa = (Integer) getHibernateTemplate().save(cualitativa);
-
             }
 
 			// GUARDA FINAL - DEFINITIVO
