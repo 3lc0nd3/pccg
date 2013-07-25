@@ -425,9 +425,16 @@ public class PnDAO extends HibernateDaoSupport{
                                               final int idCapitulo,
                                               final String txt,
                                               final String target){
+		logger.info("tipoFormato = " + tipoFormato);
+		logger.info("idCapitulo = " + idCapitulo);
+		logger.info("txt = " + txt);
+		logger.info("target = " + target);
+
         WebContext wctx = WebContextFactory.get();
         HttpSession session = wctx.getSession(true);
         final Empleado empleado = (Empleado) session.getAttribute("empleo");
+		logger.info("empleado = " + empleado);
+
 
         getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
@@ -449,7 +456,7 @@ public class PnDAO extends HibernateDaoSupport{
                 return null;
             }
         });
-        return getPnCualitativa(tipoFormato, idCapitulo);
+        return getPnCualitativa(tipoFormato, idCapitulo, empleado);
     }
 
     /**
@@ -459,38 +466,39 @@ public class PnDAO extends HibernateDaoSupport{
      * @return la PnCualitativa, si no existe, crea una vacia y la retorna. o Usar getPnCualitativaFromEmpleadoTipoFormato
      */
     public PnCualitativa getPnCualitativa(int tipoFormato,
-                                          int idCapitulo){
-        WebContext wctx = WebContextFactory.get();
-        HttpSession session = wctx.getSession(true);
-        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+                                          int idCapitulo,
+										  Empleado empleado){
+		if (empleado == null) {
+			WebContext wctx = WebContextFactory.get();
+			HttpSession session = wctx.getSession(true);
+			empleado = (Empleado) session.getAttribute("empleo");
+		}
 
-        if(idCapitulo == 0){
+		if(idCapitulo == 0){
             PnCualitativa cualitativa = getPnCualitativaFromEmpleadoTipoFormato(empleado.getIdEmpleado(), tipoFormato);
             if(cualitativa == null){
-                return saveCualitativaVacia(tipoFormato, idCapitulo);
+                return saveCualitativaVacia(tipoFormato, idCapitulo, empleado);
             } else {
                 return cualitativa;
             }
         } else {
             Object o[] = {empleado.getIdEmpleado(), tipoFormato, idCapitulo};
             List<PnCualitativa> pnCualitativas = getHibernateTemplate().find(
-                    "from PnCualitativa where empleadoByIdEmpleado.idEmpleado = ? and tipoFormatoByIdTipoFormato.id = ? and " +
+                    " from PnCualitativa where empleadoByIdEmpleado.idEmpleado = ? and tipoFormatoByIdTipoFormato.id = ? and " +
                             "pnCapituloByIdCapitulo.id = ?",
                     o
             );
             if(pnCualitativas.size()>0){
                 return pnCualitativas.get(0);
             } else {
-                return saveCualitativaVacia(tipoFormato, idCapitulo);
+                return saveCualitativaVacia(tipoFormato, idCapitulo, empleado);
             }
         }
     }
 
     public PnCualitativa saveCualitativaVacia(int tipoFormato,
-                                              int idCapitulo){
-        WebContext wctx = WebContextFactory.get();
-        HttpSession session = wctx.getSession(true);
-        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+                                              int idCapitulo,
+											  Empleado empleado){
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         PnCualitativa cualitativa = new PnCualitativa();

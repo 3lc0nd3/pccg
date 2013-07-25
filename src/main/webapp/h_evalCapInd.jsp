@@ -69,6 +69,7 @@
                             bg = "#eeeded";
                         }
 
+                        PnCualitativa cualitativa = pnManager.getPnCualitativa(2, capitulo.getId(), empleo);
                 %>
                 <br>
                 <div class="esquinasRedondas" style="background-color:<%=bg%>; text-align:center;">
@@ -79,11 +80,26 @@
                     <tr><th class="alert-info">
                         <img src="images/help.png" onclick="muestraAyudaCualitativa('v','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                         <%=texto20.getTexto1()%></th></tr>
+                    <tr>
+                        <td class="contenido" bgcolor="white">
+                            <span id="vision-<%=capitulo.getId()%>">
+                                <%=cualitativa.getVision()%>
+                            </span>
+                            <br>
+                            <br>
+                            <a onclick="editarCualitativa('vision', <%=capitulo.getId()%>);">
+                                <img src="images/edit.png" alt="Editar">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
                     <tr><td>
-                        <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <textarea id="vision-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <br>
+                        <a onclick="guardaCualitativa('vision', <%=capitulo.getId()%>);">Guardar</a>
                     </td></tr>
                     <tr id="v-<%=capitulo.getId()%>-contenido" style="display:none;">
-                        <td colspan="2" class="contenido">
+                        <td  class="contenido">
                             <%=texto20.getTexto2()%>
                         </td>
                     </tr>
@@ -95,7 +111,7 @@
                         <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
                     </td></tr>
                     <tr id="f-<%=capitulo.getId()%>-contenido" style="display:none;">
-                        <td colspan="2" class="contenido">
+                        <td class="contenido">
                             <%=texto19.getTexto1()%>
                         </td>
                     </tr>
@@ -307,14 +323,14 @@
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){
     %>
-    try{
-    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    } catch(err){
+//    try{
+    <%--dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+//    } catch(err){
 
-    }
+//    }
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL
@@ -327,4 +343,24 @@
     <%
     }
     %>
+
+    /**
+     fortalezas oportunidades pendientesVisita vision
+     */
+    function editarCualitativa(campo, idCapitulo) {
+        pnRemoto.getPnCualitativa(2, idCapitulo, null, function(data){
+//            alert("data = " + data[campo]);
+            dwr.util.setValue(campo+"-text-"+idCapitulo, data[campo]);
+        });
+    }
+    
+    function guardaCualitativa(campo, idCapitulo){
+        var txt = dwr.util.getValue(campo+"-text-"+idCapitulo);
+//        alert("txt = " + txt);
+        pnRemoto.actualizaCualitativa(2, idCapitulo, txt, campo, function(data){
+//            alert("data = " + data);
+            dwr.util.setValue(campo+"-"+idCapitulo, data[campo]);
+            dwr.util.setValue(campo+"-text-"+idCapitulo, "");
+        });
+    }
 </script>
