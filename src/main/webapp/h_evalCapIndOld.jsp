@@ -76,53 +76,22 @@
                     <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
                     <br>
                 <table border="1" width="70%" align="center">
-                    <tr><th class="alert-info">
-                        <img src="images/help.png" onclick="muestraAyudaCualitativa('v','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                        <%=texto20.getTexto1()%></th></tr>
+                    <tr><th class="alert-info"><%=texto20.getTexto1()%></th></tr>
                     <tr><td>
-                        <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr id="v-<%=capitulo.getId()%>-contenido" style="display:none;">
-                        <td colspan="2" class="contenido">
-                            <%=texto20.getTexto2()%>
-                        </td>
-                    </tr>
-
-                    <tr><th class="alert-info">
-                        <img src="images/help.png" onclick="muestraAyudaCualitativa('f','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                        Fortalezas</th></tr>
+                    <tr><th class="alert-info">Fortalezas</th></tr>
                     <tr><td>
-                        <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr id="f-<%=capitulo.getId()%>-contenido" style="display:none;">
-                        <td colspan="2" class="contenido">
-                            <%=texto19.getTexto1()%>
-                        </td>
-                    </tr>
-
-                    <tr><th class="alert-info">
-                        <img src="images/help.png" onclick="muestraAyudaCualitativa('o','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                        Oportunidades de Mejora</th></tr>
+                    <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
                     <tr><td>
-                        <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr id="o-<%=capitulo.getId()%>-contenido" style="display:none;">
-                        <td colspan="2" class="contenido">
-                            <%=texto19.getTexto2()%>
-                        </td>
-                    </tr>
-
-                    <tr><th class="alert-info">
-                        <img src="images/help.png" onclick="muestraAyudaCualitativa('p','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                        Puntos Pendientes Visita de Campo</th></tr>
+                    <tr><th class="alert-info">Puntos Pendientes Visita de Campo</th></tr>
                     <tr><td>
-                        <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr id="p-<%=capitulo.getId()%>-contenido" style="display:none;">
-                        <td colspan="2" class="contenido">
-                            Puntos para tener en cuenta
-                        </td>
-                    </tr>
                 </table>
                 <br>
                 <table border="1" align="center" width="90%">
