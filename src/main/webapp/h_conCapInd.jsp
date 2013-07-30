@@ -33,6 +33,7 @@
                             empleo.getIdEmpleado(), 7 // FORMATO 7 CONSENSO POR CAPITULO
                     );
 
+                    System.out.println("participanteByIdParticipante.getIdParticipante() = " + participanteByIdParticipante.getIdParticipante());
                     System.out.println("participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() = " + participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante());
                     if (participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 2) {
                 %>
