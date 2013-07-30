@@ -49,20 +49,19 @@
         <th> Nombre </th>
         <th> Direcci&oacute;n </th>
         <th> Emails</th>
-        <%--<th> Email Personal</th>--%>
         <th> Tel&eacute;fonos </th>
-        <%--<th> Celular </th>--%>
         <th> Fecha de Registro</th>
         <th width="28"> Opciones</th>
     </tr>
 <%
     for (Participante participante : participantes){
         Empresa empresa = participante.getEmpresaByIdEmpresa();
+        List<Empleado> empleados = pnManager.getEmpleadosFromParticipante(participante.getIdParticipante());
 %>
     <tr>
         <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
         <td><%=empresa.getNit()%></td>
-        <td><%=empresa.getNombreEmpresa()%></td>
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
         <td><%=empresa.getDireccionEmpresa()%></td>
         <td>
             <%=empresa.getEmailEmpresa()%>
@@ -74,6 +73,44 @@
         </td>
         <td><%=empresa.getFechaCreacion()%></td>
         <td></td>
+    </tr>
+    <tr>
+        <th>&nbsp;</th>
+        <th colspan="7">
+            Personas de <%=empresa.getNombreEmpresa()%>
+        </th>
+    </tr>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Perfil</th>
+        <th>Nombre</th>
+        <th>Correo Corp.</th>
+        <th>Correo Personal</th>
+        <th>Tel. Celular</th>
+        <th>Tel. Fijo</th>
+        <th>&nbsp;</th>
+    </tr>
+    <%
+        for (Empleado empleado: empleados){
+            Persona persona = empleado.getPersonaByIdPersona();
+    %>
+    <tr>
+        <th>&nbsp;</th>
+        <td><%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
+        <td><%=persona.getNombreCompleto()%></td>
+        <td><%=persona.getEmailCorporativo()%></td>
+        <td><%=persona.getEmailPersonal()%></td>
+        <td><%=persona.getCelular()%></td>
+        <td><%=persona.getTelefonoFijo()%></td>
+        <td></td>
+    </tr>
+    <%
+        }
+    %>
+    <tr>
+        <td colspan="8">
+            &nbsp;
+        </td>
     </tr>
 <%
     }
