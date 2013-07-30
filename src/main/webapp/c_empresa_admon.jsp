@@ -59,7 +59,7 @@
 //    if (empresa != null) {
 //        System.out.println("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
 //    }
-    if(empresa != null && empresa.getIdEmpresa()!=1){ // HAY EMPRESA
+    if(empresa != null || empresa.getIdEmpresa()!=1){ // HAY EMPRESA
 
 %>
 
