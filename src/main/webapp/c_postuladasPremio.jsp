@@ -22,7 +22,7 @@
         response.setHeader("Content-Disposition","attachment; filename=\""+ nombre + "\"");
     } else {
 %>
-<A href="http://www.pccg.com.co/app/c_postuladasPremio.jsp?idPremio=<%=idPremio%>">
+<A href="http://www.pccg.com.co/app/c_postuladasPremio.jsp?idPremio=<%=idPremio%>&d=<%=System.currentTimeMillis()%>">
     Exportar a Excel <img src="img/excel.png" width="36" alt="Exportar">
 </A>
 <br>
@@ -43,17 +43,18 @@
 <b>Premio</b>
 <h2><%=premio.getNombrePremio()%></h2>
 <br>
-<h3>Empresas Postuladas</h3>
+<h3>Empresas Postuladas.</h3>
 <br>
 <table border="1" width="90%">
     <tr>
+        <th>Nombre</th>
         <th>Ciudad</th>
-        <th> Nit. </th>
-        <th> Nombre </th>
-        <th> Direcci&oacute;n </th>
-        <th> Emails</th>
-        <th> Tel&eacute;fonos </th>
-        <th> Fecha de Registro</th>
+        <th>Nit.</th>
+        <th>Nombre</th>
+        <th>Direcci&oacute;n</th>
+        <th>Emails</th>
+        <th>Tel&eacute;fonos</th>
+        <th>Fecha de Registro</th>
         <th width="28"> Opciones</th>
     </tr>
 <%
@@ -62,6 +63,7 @@
         List<Empleado> empleados = pnManager.getEmpleadosFromParticipante(participante.getIdParticipante());
 %>
     <tr>
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
         <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
         <td><%=empresa.getNit()%></td>
         <td><b><%=empresa.getNombreEmpresa()%></b></td>
@@ -78,13 +80,18 @@
         <td></td>
     </tr>
     <tr>
-        <th>&nbsp;</th>
-        <th colspan="7">
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
+        <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
+        <%--<th>&nbsp;</th>--%>
+        <th colspan="6">
             Personas de <%=empresa.getNombreEmpresa()%>
         </th>
     </tr>
     <tr>
+        <%--<td><b><%=empresa.getNombreEmpresa()%></b></td>--%>
+        <%--<td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>--%>
         <th>&nbsp;</th>
+        <th>Ciudad</th>
         <th>Perfil</th>
         <th>Nombre</th>
         <th>Correo Corp.</th>
@@ -98,7 +105,9 @@
             Persona persona = empleado.getPersonaByIdPersona();
     %>
     <tr>
-        <th>&nbsp;</th>
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
+        <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
+        <%--<th>&nbsp;</th>--%>
         <td><%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
         <td><%=persona.getNombreCompleto()%></td>
         <td><%=persona.getEmailCorporativo()%></td>
@@ -111,7 +120,7 @@
         }
     %>
     <tr>
-        <td colspan="8">
+        <td colspan="9">
             &nbsp;
         </td>
     </tr>
