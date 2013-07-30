@@ -106,10 +106,17 @@ public class FrontControllerMultiMedia {
 		wctx.getHttpServletRequest().setAttribute("idPremio", idPremio);
 		return wctx.forwardToString("/c_formacion_inscritos.jsp");
 	}
+
 	public String getInscritosFormacion(int idPremio) throws IOException, ServletException {
 		WebContext wctx = WebContextFactory.get();
 		wctx.getHttpServletRequest().setAttribute("idPremio", idPremio);
 		return wctx.forwardToString("/c_formacion_inscritos.jsp");
+	}
+
+	public String getPostuladas(int idPremio) throws IOException, ServletException {
+		WebContext wctx = WebContextFactory.get();
+		wctx.getHttpServletRequest().setAttribute("idPremio", idPremio);
+		return wctx.forwardToString("/c_postuladasPremio.jsp");
 	}
 
     public String getPlayer(int idFile, int tipoSource, String filename) throws IOException, ServletException {

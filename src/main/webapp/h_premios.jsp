@@ -101,6 +101,7 @@
             <td>
                 <img width="36" onclick="editaPremio(<%=premio.getIdPnPremio()%>);" src="img/edit.png" alt="edita" title="edita">
                 <img width="36" onclick="estudiantes(<%=premio.getIdPnPremio()%>);" src="images/estudiante.png" alt="Inscritos a Formacion" title="Inscritos a Formacion">
+                <img width="36" onclick="postuladas(<%=premio.getIdPnPremio()%>);" src="img/empresa.png" alt="Postuladas" title="Postuladas">
             </td>
         </tr>
         <%
@@ -122,6 +123,12 @@
 
     function estudiantes(cg){
         frontController.getInscritosFormacion(cg, function(data){
+            dwr.util.setValue('inscritos', data, { escapeHtml:false })
+        });
+    }
+
+    function postuladas(cg){
+        frontController.getPostuladas(cg, function(data){
             dwr.util.setValue('inscritos', data, { escapeHtml:false })
         });
     }

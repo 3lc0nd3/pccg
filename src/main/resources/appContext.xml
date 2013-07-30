@@ -146,6 +146,7 @@
             <dwr:include method="getIncludeGrafAdmon"/>
             <dwr:include method="getIncludeInscritosFormacion"/>
             <dwr:include method="getInscritosFormacion"/>
+            <dwr:include method="getPostuladas"/>
             <dwr:include method="getPlayer"/>
         </dwr:remote>
         <property name="pnDAO" ref="pnDAO"/>
