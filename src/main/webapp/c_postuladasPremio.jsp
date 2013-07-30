@@ -32,7 +32,10 @@
 
 
 
-    List<Participante> participantes = pnManager.getParticipantesFromPremio(idPremio);
+    List<Participante> participantes = pnManager.getHibernateTemplate().find(
+            "from Participante where idParticipante in (select participanteByIdParticipante.idParticipante from Empleado where perfilByIdPerfil.id = 3 and participanteByIdParticipante.pnPremioByIdConvocatoria.idPnPremio = ?)",
+            idPremio
+    );
 
 
 
@@ -109,7 +112,7 @@
     %>
     <tr>
         <td colspan="8">
-            &nbsp;
+            &nbsp;8
         </td>
     </tr>
 <%
