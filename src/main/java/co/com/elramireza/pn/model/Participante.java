@@ -152,28 +152,37 @@ public class Participante {
         this.fileConsignacion = fileConsignacion;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    private String pregunta1;
+    private String pregunta2;
+    private String pregunta3;
 
-        Participante that = (Participante) o;
-
-        if (fileCertificadoConstitucion != null ? !fileCertificadoConstitucion.equals(that.fileCertificadoConstitucion) : that.fileCertificadoConstitucion != null)
-            return false;
-        if (fileConsignacion != null ? !fileConsignacion.equals(that.fileConsignacion) : that.fileConsignacion != null)
-            return false;
-        if (fileEstadoFinanciero != null ? !fileEstadoFinanciero.equals(that.fileEstadoFinanciero) : that.fileEstadoFinanciero != null)
-            return false;
-
-        return true;
+    @Basic
+    @Column(name = "pregunta_1", nullable = true)
+    public String getPregunta1() {
+        return pregunta1;
     }
 
-    @Override
-    public int hashCode() {
-        int result = fileCertificadoConstitucion != null ? fileCertificadoConstitucion.hashCode() : 0;
-        result = 31 * result + (fileEstadoFinanciero != null ? fileEstadoFinanciero.hashCode() : 0);
-        result = 31 * result + (fileConsignacion != null ? fileConsignacion.hashCode() : 0);
-        return result;
+    public void setPregunta1(String pregunta1) {
+        this.pregunta1 = pregunta1;
+    }
+
+    @Basic
+    @Column(name = "pregunta_2", nullable = true)
+    public String getPregunta2() {
+        return pregunta2;
+    }
+
+    public void setPregunta2(String pregunta2) {
+        this.pregunta2 = pregunta2;
+    }
+
+    @Basic
+    @Column(name = "pregunta_3", nullable = true)
+    public String getPregunta3() {
+        return pregunta3;
+    }
+
+    public void setPregunta3(String pregunta3) {
+        this.pregunta3 = pregunta3;
     }
 }

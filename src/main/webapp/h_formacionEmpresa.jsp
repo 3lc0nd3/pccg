@@ -558,6 +558,7 @@ jQuery.validator.addMethod("money", function (value, element) {
     return this.optional(element) || /^((\d{1,5})+\.\d{2})?$|^\$?[\.]([\d][\d]?)$/.test(value);
 }, 'Moneda' );
 
+
 jQuery(document).ready(function() {
     jQuery("#registroP").validate({
         submitHandler: function() {

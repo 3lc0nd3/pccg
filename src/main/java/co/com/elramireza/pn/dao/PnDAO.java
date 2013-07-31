@@ -4,6 +4,7 @@ import co.com.elramireza.pn.model.*;
 import co.com.elramireza.pn.util.MyKey;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
+import org.hibernate.Session;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -2652,4 +2653,39 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 		return respuesta;
 	}
+
+
+    public int responderPreguntasP(final String p1,
+                                   final String p2,
+                                   final String p3){
+
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+        final Participante participante = empleado.getParticipanteByIdParticipante();
+
+        try {
+            getHibernateTemplate().execute(new HibernateCallback() {
+                @Override
+                public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                    Query query = session.createQuery(
+                            "update Participante set pregunta1=?, pregunta2=?, pregunta3=? where idParticipante=?"
+                    );
+
+                     query.setString(0, p1);
+                     query.setString(1, p2);
+                     query.setString(2, p3);
+                    query.setInteger(3, participante.getIdParticipante());
+
+                    query.executeUpdate();
+                    return null;  //To change body of implemented methods use File | Settings | F
+                }
+            });
+            return 1;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
 }

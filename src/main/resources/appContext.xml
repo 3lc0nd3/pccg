@@ -250,6 +250,7 @@
             <dwr:include method="getPnCualitativa"/>
             <dwr:include method="actualizaCualitativa"/>
             <dwr:include method="cambiaP"/>
+            <dwr:include method="responderPreguntasP"/>
 
             <!--LOS QUE NO VAN-->
             <!--
