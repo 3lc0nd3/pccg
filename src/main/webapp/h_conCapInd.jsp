@@ -83,6 +83,7 @@
                             bg = "#eeeded";
                         }
 
+                        PnCualitativa cualitativa = pnManager.getPnCualitativa(7, capitulo.getId(), empleo);
                 %>
                 <br>
                 <div class="esquinasRedondas" style="background-color:<%=bg%>; text-align:center;">
@@ -90,22 +91,113 @@
                     <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
                     <br>
                     <table border="1" width="70%" align="center">
-                        <tr><th class="alert-info"><%=texto20.getTexto1()%></th></tr>
-                        <tr><td>
-                            <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('v','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <%=texto20.getTexto1()%></th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="vision-<%=capitulo.getId()%>">
+                                <%=cualitativa.getVision()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('vision', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="vision-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="vision-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <br>
+                            <a onclick="guardaCualitativa('vision', <%=capitulo.getId()%>);">Guardar</a>
                         </td></tr>
-                        <tr><th class="alert-info">Fortalezas</th></tr>
-                        <tr><td>
-                            <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
+                        <tr id="v-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td  class="contenido">
+                                <%=texto20.getTexto2()%>
+                            </td>
+                        </tr>
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('f','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Fortalezas</th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="fortalezas-<%=capitulo.getId()%>">
+                                <%=cualitativa.getFortalezas()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('fortalezas', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="fortalezas-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="fortalezas-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <br>
+                            <a onclick="guardaCualitativa('fortalezas', <%=capitulo.getId()%>);">Guardar</a>
                         </td></tr>
-                        <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
-                        <tr><td>
-                            <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
+                        <tr id="f-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td class="contenido">
+                                <%=texto19.getTexto1()%>
+                            </td>
+                        </tr>
+
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('o','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Oportunidades de Mejora</th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="oportunidades-<%=capitulo.getId()%>">
+                                <%=cualitativa.getOportunidades()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('oportunidades', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="oportunidades-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="oportunidades-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <br>
+                            <a onclick="guardaCualitativa('oportunidades', <%=capitulo.getId()%>);">Guardar</a>
                         </td></tr>
-                        <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
-                        <tr><td>
-                            <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
+                        <tr id="o-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td colspan="2" class="contenido">
+                                <%=texto19.getTexto2()%>
+                            </td>
+                        </tr>
+
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('p','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Puntos Pendientes Visita de Campo</th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="pendientesVisita-<%=capitulo.getId()%>">
+                                <%=cualitativa.getPendientesVisita()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('pendientesVisita', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="pendientesVisita-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="pendientesVisita-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <br>
+                            <a onclick="guardaCualitativa('pendientesVisita', <%=capitulo.getId()%>);">Guardar</a>
                         </td></tr>
+                        <tr id="p-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td colspan="2" class="contenido">
+                                Puntos para tener en cuenta
+                            </td>
+                        </tr>
+
                     </table>
                     <br>
                     <table border="1" align="center" width="90%">
@@ -289,10 +381,10 @@
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){
     %>
-    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getVision().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getFortalezas().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
+    <%--dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getVision().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getFortalezas().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));--%>
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL
@@ -304,4 +396,26 @@
     <%
     }
     %>
+
+    /**
+     fortalezas oportunidades pendientesVisita vision
+     */
+    function editarCualitativa(campo, idCapitulo) {
+        pnRemoto.getPnCualitativa(7, idCapitulo, null, function(data){
+//            alert("data = " + data[campo]);
+            $("#"+campo+"-tr-"+idCapitulo).show();
+            dwr.util.setValue(campo+"-text-"+idCapitulo, data[campo]);
+        });
+    }
+
+    function guardaCualitativa(campo, idCapitulo){
+        var txt = dwr.util.getValue(campo+"-text-"+idCapitulo);
+//        alert("txt = " + txt);
+        pnRemoto.actualizaCualitativa(7, idCapitulo, txt, campo, function(data){
+//            alert("data = " + data);
+            dwr.util.setValue(campo+"-"+idCapitulo, data[campo]);
+            dwr.util.setValue(campo+"-text-"+idCapitulo, "");
+            $("#"+campo+"-tr-"+idCapitulo).hide();
+        });
+    }
 </script>
