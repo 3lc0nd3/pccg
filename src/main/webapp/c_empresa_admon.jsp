@@ -128,18 +128,19 @@
 </div>
 <br>
 <%
+    Texto cartaTexto = pnManager.getTexto(28);
     if(participante!=null && participante.getFileInformePostula()!=null){
 %>
 <a href="pdfs/ip-<%=empresa.getNit()%>-<%=participante.getIdParticipante()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
-    <span class="color">Informe de Postulaci&oacute;n PDF</span>
+    <span class="color"><%=cartaTexto.getTexto1()%> PDF</span>
 </a>
 <%
 } else {
     if(participante!=null){
 %>
 <img src="img/stop.png" alt="abrir" title="abrir" width="48">
-No hay Informe de Postulaci&oacute;n
+No hay <%=cartaTexto.getTexto1()%>
 <%
         }
     }

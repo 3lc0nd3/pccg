@@ -1,10 +1,15 @@
+<%@ page import="co.com.elramireza.pn.model.Texto" %>
+<jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
+<%
 
+    Texto cartaTexto = pnManager.getTexto(28);
+%>
 <div class="formy">
     <div class="form">
         <%--<form id="registroP" class="form-horizontal" autocomplete="off">--%>
         <!-- informe de postulacion-->
         <div class="control-group">
-            <label class="control-label" for="fileInformePostulacionFile">Informe de Postulaci&oacute;n PDF</label>
+            <label class="control-label" for="fileInformePostulacionFile"><%=cartaTexto.getTexto1()%></label>
             <div class="controls">
                 <input type="file" name="fileInformePostulacionFile" id="fileInformePostulacionFile">
                 <br>
