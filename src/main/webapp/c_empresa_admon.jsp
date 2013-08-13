@@ -178,7 +178,7 @@ Certificado Constituci&oacute;n Legal
 Estados Financieros (3 a&ntilde;os)
 <%
     }
-%>
+%><%--
 <br>
 <%
     if(participante!=null && participante.getFileConsignacion()!=null){
@@ -197,7 +197,7 @@ Recibo de Consignaci&oacute;n (50%)
 <%
         }
     }
-%>
+%>--%>
 <%
     }  /* END MUESTRA ARCHIVOS SEGUN PERFILES  */
 %>

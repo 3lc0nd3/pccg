@@ -45,6 +45,7 @@
     </div>
 </div>
 <br>
+<%--
 <div class="formy">
     <div class="form">
         <!-- fileConsignacion Empresa -->
@@ -57,4 +58,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>--%>
