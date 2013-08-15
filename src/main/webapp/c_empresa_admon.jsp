@@ -71,10 +71,13 @@
 <span class="color">Tama&ntilde;o</span> <%=empresa.getEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa().getTamano()%>
 <%
     if(empleo!=null && empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getIdEmpresa()!=0){
+        if (participante != null) {
+
 %>
 <br>
 <span class="color">Etapa</span> <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
 <%
+        }
     }
 
     if (true)  { // SOLO PARA LIDER
