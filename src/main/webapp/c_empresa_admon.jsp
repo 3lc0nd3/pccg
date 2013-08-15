@@ -129,7 +129,30 @@
 <div id="resultado">
 
 </div>
+<b>Preguntas</b>
 <br>
+<%
+
+    if(participante!=null){
+        Texto pregunta1 = pnManager.getTexto(25);
+        Texto pregunta2 = pnManager.getTexto(26);
+        Texto pregunta3 = pnManager.getTexto(27);
+%>
+<br>
+<li>
+    <ul><%=pregunta1.getTexto1()%> <br> <%=participante.getPregunta1()!=null?participante.getPregunta1():"Sin respuesta"%></ul>
+</li>
+<li>
+    <ul><%=pregunta2.getTexto1()%> <br> <%=participante.getPregunta2()!=null?participante.getPregunta2():"Sin respuesta"%></ul>
+</li>
+<li>
+    <ul><%=pregunta3.getTexto1()%> <br> <%=participante.getPregunta3()!=null?participante.getPregunta3():"Sin respuesta"%></ul>
+</li>
+<%
+    } // FIN IF HAY PARTICIPANTE
+%>
+<b>Archivos</b>
+<Br>
 <%
     Texto cartaTexto = pnManager.getTexto(28);
     if(participante!=null && participante.getFileInformePostula()!=null){
