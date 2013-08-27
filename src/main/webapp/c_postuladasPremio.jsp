@@ -4,6 +4,12 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+    long ct = System.currentTimeMillis();
+    Texto pregunta1 = pnManager.getTexto(25);
+    Texto pregunta2 = pnManager.getTexto(26);
+    Texto pregunta3 = pnManager.getTexto(27);
+    Texto cartaTexto = pnManager.getTexto(28);
+
     Integer idPremio = (Integer) request.getAttribute("idPremio");
     boolean excel = false;
     if (idPremio == null) {
@@ -120,8 +126,100 @@
         }
     %>
     <tr>
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
+        <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
+        <Td>
+            Pregunta 1
+        </Td>
+        <td colspan="2">
+            <%=pregunta1.getTexto1()%>
+        </td>
+        <td colspan="2">
+            <%=participante.getPregunta1()==null?"Sin respuesta":participante.getPregunta1()%>
+        </td>
+
+        <td colspan="2" rowspan="3">
+            <%
+                if(participante!=null && participante.getFileInformePostula()!=null){
+            %>
+            <a href="pdfs/ip-<%=empresa.getNit()%>-<%=participante.getIdParticipante()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
+                <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+                <span class="color"><%=cartaTexto.getTexto1()%> PDF</span>
+            </a>
+            <%
+            } else {
+            %>
+            <img src="img/stop.png" alt="abrir" title="abrir" width="48">
+            No hay <%=cartaTexto.getTexto1()%>
+            <%
+                }
+            %>
+
+            <br>
+            <%
+                if(empresa.getFileCertificadoConstitucion()!=null){
+            %>
+            <a href="pdfs/cc-<%=empresa.getNit()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
+                <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+                <span class="color">Certificado Constituci&oacute;n Legal PDF</span>
+            </a>
+            <%
+            } else {
+            %>
+            <img src="img/stop.png" alt="abrir" title="abrir" width="48">
+            Certificado Constituci&oacute;n Legal
+            <%
+                }
+            %>
+            <br>
+            <%
+                if(empresa.getFileEstadoFinanciero()!=null){
+            %>
+            <a href="pdfs/ef-<%=empresa.getNit()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
+                <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+                <span class="color">Estados Financieros (3 a&ntilde;os) PDF</span>
+            </a>
+            <%
+            } else {
+            %>
+            <img src="img/stop.png" alt="abrir" title="abrir" width="48">
+            Estados Financieros (3 a&ntilde;os)
+            <%
+                }
+            %>
+        </td>
+    </tr>
+    <tr>
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
+        <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
+        <Td>
+            Pregunta 2
+        </Td>
+        <td colspan="2">
+            <%=pregunta2.getTexto1()%>
+        </td>
+        <td colspan="2">
+            <%=participante.getPregunta2()==null?"Sin respuesta":participante.getPregunta2()%>
+        </td>
+    </tr>
+    <tr>
+        <td><b><%=empresa.getNombreEmpresa()%></b></td>
+        <td><%=empresa.getLocCiudadByIdCiudad().getNombreCiudad()%></td>
+        <Td>
+            Pregunta 3
+        </Td>
+        <td colspan="2">
+            <%=pregunta3.getTexto1()%>
+        </td>
+        <td colspan="2">
+            <%=participante.getPregunta3()==null?"Sin respuesta":participante.getPregunta3()%>
+        </td>
+    </tr>
+    <tr>
         <td colspan="9">
             &nbsp;
+            <br>
+            <br>
         </td>
     </tr>
 <%
