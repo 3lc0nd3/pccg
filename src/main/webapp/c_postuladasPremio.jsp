@@ -28,7 +28,8 @@
         response.setHeader("Content-Disposition","attachment; filename=\""+ nombre + "\"");
     } else {
 %>
-<A href="http://www.pccg.com.co/app/c_postuladasPremio.jsp?idPremio=<%=idPremio%>&d=<%=System.currentTimeMillis()%>">
+<%--<A href="http://www.pccg.com.co/app/c_postuladasPremio.jsp?idPremio=<%=idPremio%>&d=<%=System.currentTimeMillis()%>">--%>
+<A href="c_postuladasPremio.jsp?idPremio=<%=idPremio%>&d=<%=System.currentTimeMillis()%>">
     Exportar a Excel <img src="img/excel.png" width="36" alt="Exportar">
 </A>
 <br>
