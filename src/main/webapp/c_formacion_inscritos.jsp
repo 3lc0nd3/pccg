@@ -170,6 +170,7 @@
         <th> Tel&eacute;fonos </th>
         <%--<th> Celular </th>--%>
         <th> Perfil </th>
+        <th> Fecha de Inscripci&oacute;n </th>
         <th width="28"> Opciones</th>
     </tr>
 <%
@@ -191,6 +192,7 @@
             <%=empleadoPersonal.getPersonaByIdPersona().getTelefonoFijo() %>
         </td>
         <td><%=empleadoPersonal.getPerfilByIdPerfil().getPerfil()%></td>
+        <td><%=empleadoPersonal.getFechaIngreso()%></td>
         <td></td>
     </tr>
 <%
