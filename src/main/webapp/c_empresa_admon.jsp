@@ -153,6 +153,7 @@
 %>
 <b>Archivos</b>
 <Br>
+<%--
 <%
     Texto cartaTexto = pnManager.getTexto(28);
     if(participante!=null && participante.getFileInformePostula()!=null){
@@ -207,6 +208,7 @@ Estados Financieros (3 a&ntilde;os)
     }
 %>
 <br>
+--%>
 <%
     if(participante!=null && participante.getFileConsignacion()!=null){
 %>
@@ -226,7 +228,7 @@ Informe de Postulaci&oacute;n PDF
     }
 %>
 <%
-    }  /* END MUESTRA ARCHIVOS SEGUN PERFILES  */
+    //}  /* END MUESTRA ARCHIVOS SEGUN PERFILES  */
 %>
 <br>
 <a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
