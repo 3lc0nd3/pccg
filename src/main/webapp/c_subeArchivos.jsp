@@ -50,12 +50,11 @@
     </div>
 </div>
 <br>
-<%--
 <div class="formy">
     <div class="form">
         <!-- fileConsignacion Empresa -->
         <div class="control-group">
-            <label class="control-label" for="fileConsignacionFile">Recibo de Consignaci&oacute;n (50%) PDF</label>
+            <label class="control-label" for="fileConsignacionFile">Informe de Postulaci&oacute;n PDF</label>
             <div class="controls">
                 <input type="file" name="fileConsignacionFile" id="fileConsignacionFile">
                 <br>
@@ -63,4 +62,4 @@
             </div>
         </div>
     </div>
-</div>--%>
+</div>

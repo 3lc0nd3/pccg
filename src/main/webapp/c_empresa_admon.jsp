@@ -205,14 +205,14 @@ Certificado Constituci&oacute;n Legal
 Estados Financieros (3 a&ntilde;os)
 <%
     }
-%><%--
+%>
 <br>
 <%
     if(participante!=null && participante.getFileConsignacion()!=null){
 %>
 <a href="pdfs/co-<%=empresa.getNit()%>-<%=participante.getIdParticipante()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
-    <span class="color">Recibo de Consignaci&oacute;n (50%) PDF</span>
+    <span class="color">Informe de Postulaci&oacute;n PDF</span>
 </a>
 <%
 } else {
@@ -220,11 +220,11 @@ Estados Financieros (3 a&ntilde;os)
 
 %>
 <img src="img/stop.png" alt="abrir" title="abrir" width="48">
-Recibo de Consignaci&oacute;n (50%)
+Informe de Postulaci&oacute;n PDF
 <%
         }
     }
-%>--%>
+%>
 <%
     }  /* END MUESTRA ARCHIVOS SEGUN PERFILES  */
 %>
