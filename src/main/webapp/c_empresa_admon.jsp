@@ -129,28 +129,35 @@
 <div id="resultado">
 
 </div>
-<b>Preguntas</b>
-<br>
+
+<div> <%--  PREGUNTAS  --%>
 <%
 
     if(participante!=null){
         Texto pregunta1 = pnManager.getTexto(25);
         Texto pregunta2 = pnManager.getTexto(26);
         Texto pregunta3 = pnManager.getTexto(27);
+        System.out.println("empleo.getpe = " + empleo.getPerfilByIdPerfil().getId());
+        if (empleo != null && (empleo.getPerfilByIdPerfil().getId()==3 || empleo.getPerfilByIdPerfil().getId()==1)) {
+
 %>
-<br>
-<li>
-    <ul><%=pregunta1.getTexto1()%> <br> <%=participante.getPregunta1()!=null?participante.getPregunta1():"Sin respuesta"%></ul>
-</li>
-<li>
-    <ul><%=pregunta2.getTexto1()%> <br> <%=participante.getPregunta2()!=null?participante.getPregunta2():"Sin respuesta"%></ul>
-</li>
-<li>
-    <ul><%=pregunta3.getTexto1()%> <br> <%=participante.getPregunta3()!=null?participante.getPregunta3():"Sin respuesta"%></ul>
-</li>
-<%
-    } // FIN IF HAY PARTICIPANTE
-%>
+    <b>Preguntas</b>
+    <br>
+    <li>
+        <ul><%=pregunta1.getTexto1()%> <br> <%=participante.getPregunta1()!=null?participante.getPregunta1():"Sin respuesta"%></ul>
+    </li>
+    <li>
+        <ul><%=pregunta2.getTexto1()%> <br> <%=participante.getPregunta2()!=null?participante.getPregunta2():"Sin respuesta"%></ul>
+    </li>
+    <li>
+        <ul><%=pregunta3.getTexto1()%> <br> <%=participante.getPregunta3()!=null?participante.getPregunta3():"Sin respuesta"%></ul>
+    </li>
+    <%
+            }
+        } // FIN IF HAY PARTICIPANTE
+    %>
+</div>  <%--  FIN PREGUNTAS  --%>
+
 <b>Archivos</b>
 <Br>
 <%--
