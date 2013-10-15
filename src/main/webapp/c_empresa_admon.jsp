@@ -130,7 +130,7 @@
 
 </div>
 
-HOLA mundo
+<%--HOLA mundo--%>
 
 <div> <%--  PREGUNTAS  --%>
 <%
