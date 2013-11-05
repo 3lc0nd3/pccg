@@ -48,6 +48,9 @@ import java.util.*;
 })
 public class PnDAO extends HibernateDaoSupport{
 
+    public boolean ENVIO_EMAIL = true;
+//    public boolean ENVIO_EMAIL = false;
+
 	public SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 	public SimpleDateFormat dfDateTime = new SimpleDateFormat("dd/MM/yyyy KK:mm aaa");
 
@@ -1285,11 +1288,35 @@ public class PnDAO extends HibernateDaoSupport{
 		return getHibernateTemplate().find("from Perfil order by perfil ");
 	}
 
+    /**
+     * mirar si ya hay perfil 7
+     * @param idParticipante
+     * @return
+     */
+    public boolean hayLiderEnEquipoParticipante(int idParticipante){
+        List<Empleado> empleados = getHibernateTemplate().find(
+                "from Empleado where perfilByIdPerfil.id=7 and participanteByIdParticipante.id = ?",
+                idParticipante
+        );
+        logger.info("Hay lider en el Participante = \t" + idParticipante+"\t" + (empleados.size() > 0));
+        return empleados.size()>0;
+    }
+
 	public Empleado vinculaEmpleado(int idPersona,
 									int idParticipante,
 									int idCargo,
 									int idPerfil){
 		logger.info("idParticipante = " + idParticipante);
+
+        // SI QUIERE VINCULAR UN LIDER
+        // SE PREGUNTA SI TIENE LIDER
+        if(hayLiderEnEquipoParticipante(idParticipante) &&
+                idPerfil == 7){
+            Empleado empleado = new Empleado();
+            empleado.setIdEmpleado(0);
+            return empleado;
+        }
+
 		try {
 			Empleado empleado = new Empleado();
 			empleado.setPerfilByIdPerfil(getPerfil(idPerfil));
@@ -2521,8 +2548,10 @@ public class PnDAO extends HibernateDaoSupport{
 //            msg.setContent(date.toString(), "text/plain");
 //            msg.setText(date.toString());
 
-			Transport.send(msg);
-		} catch (MessagingException e) {
+            if (ENVIO_EMAIL) {
+                Transport.send(msg);
+            }
+        } catch (MessagingException e) {
 			e.printStackTrace();
 			logger.debug(e.getMessage());
 			ret = 0;
@@ -2643,6 +2672,31 @@ public class PnDAO extends HibernateDaoSupport{
 
 		wctx.getHttpServletRequest().setAttribute("nombre", texto.getTexto1());
 		wctx.getHttpServletRequest().setAttribute("id", idEmpleado);
+		String respuesta = "";
+		try {
+			respuesta = wctx.forwardToString(url);
+		} catch (ServletException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		} catch (IOException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+		return respuesta;
+	}
+
+    public String getIncludeResultadoConsenso(int idParticipante,
+                                              String page,
+                                              int nombre){
+        logger.debug("idParticipante = " + idParticipante);
+        logger.debug("page = " + page);
+		logger.debug("nombre = " + nombre);
+		WebContext wctx = WebContextFactory.get();
+		String url = format("/r_%s.jsp", page);
+		logger.debug("url = " + url);
+
+		Texto texto = getTexto(nombre);
+
+		wctx.getHttpServletRequest().setAttribute("nombre", texto.getTexto1());
+		wctx.getHttpServletRequest().setAttribute("id", idParticipante);
 		String respuesta = "";
 		try {
 			respuesta = wctx.forwardToString(url);

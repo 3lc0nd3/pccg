@@ -119,6 +119,25 @@
         }
     %>
 </blockquote>
+
+<br>
+<span class="color">Consenso:</span>
+<blockquote>
+    <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalGlobalConsenso', 16);"><img src="<%=imgSrcRepor%>" width="36">
+        Consenso Global
+
+    </span>
+    <%--<br>
+    <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'', 17);"><img src="<%=imgSrcRepor%>" width="36">
+        Consenso Cap&iacute;tulos
+
+    </span>--%>
+    <br>
+    <span  onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalItemsConsenso', 18);"><img src="<%=imgSrcRepor%>" width="36">
+        Consenso Cuantitativa (&Iacute;tems)
+
+    </span>
+</blockquote>
 <%
     }
 %>

@@ -238,6 +238,7 @@
             <dwr:include method="getPnSubCapitulo"/>
             <dwr:include method="getEmpleado"/>
             <dwr:include method="getIncludeResultadoInd"/>
+            <dwr:include method="getIncludeResultadoConsenso"/>
             <dwr:include method="getPnCriterio"/>
             <dwr:include method="getTotalesItems"/>
             <dwr:include method="getPnAgendaInvitadosFromParticipante"/>

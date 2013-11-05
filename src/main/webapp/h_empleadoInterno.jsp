@@ -149,8 +149,14 @@
                     dwr.util.getValue("idPerfil"),
                     function(data) {
                         if (data != null) {
-                            alert("Registro Completo");
-                            window.location = "empleadoInterno.htm";
+                            dwr.util.toDescriptiveString(data, 2);
+                            if (data.idEmpleado != 0) {
+                                alert("Registro Completo");
+                                window.location = "empleadoInterno.htm";
+                            } else {
+                                alert("Ya hay un lider en el Equipo Evaluador!");
+                                enableId('b2');
+                            }
                         } else {
                             alert("Problemas !");
                             enableId('b2');

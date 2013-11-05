@@ -164,3 +164,13 @@ function cargaResultado(idEmpleado, page, nombre){
         }
     });
 }
+
+function cargaResultadoConcenso(idParticipante, page, nombre){
+    pnRemoto.getIncludeResultadoConsenso(idParticipante, page, nombre, function(data){
+        if (data!=null) {
+            dwr.util.setValue("resultado", data, { escapeHtml:false });
+//            window.location.hash="aResultado";
+            scrollToAnchor("aResultado");
+        }
+    });
+}
