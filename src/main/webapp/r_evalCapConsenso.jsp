@@ -4,21 +4,21 @@
 
 
 <%
-    int idEmpleado;
+    int idParticipante;
 
     String id = request.getParameter("id");
     String nombre = "";
     if (id == null) {
-        idEmpleado  = (Integer) request.getAttribute("id");
+        idParticipante = (Integer) request.getAttribute("id");
 //        System.out.println("nombre = " + nombre);
     } else {
-        idEmpleado = Integer.parseInt(id);
+        idParticipante = Integer.parseInt(id);
     }
     nombre      = (String) request.getAttribute("nombre");
 
 
-    Empleado empleado = (Empleado) session.getAttribute("empleo");
-    idEmpleado = empleado.getIdEmpleado();
+    Empleado empleado = pnManager.getLiderFromParticipante(idParticipante);
+    idParticipante = empleado.getIdEmpleado();
 
     List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoCapitulosFromEmpleado(
             empleado.getIdEmpleado());

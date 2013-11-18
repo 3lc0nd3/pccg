@@ -17,7 +17,7 @@
     }
     nombre      = (String) request.getAttribute("nombre");
 
-    Empleado empleado = (Empleado) session.getAttribute("empleo");
+    Empleado empleado = pnManager.getLiderFromParticipante(idParticipante);
 
     List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
             empleado.getIdEmpleado());

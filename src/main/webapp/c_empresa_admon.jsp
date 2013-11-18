@@ -50,6 +50,8 @@
         participante = participante1Req;
         empresa = participante.getEmpresaByIdEmpresa();
         idPerfil = 7; // PARA QUE VEA TODOS LOS EVALUADORES
+        System.out.println("SI VIENE DE  FRONTCONTROLLER "+ empresa.getNombreEmpresa() );
+        System.out.println("participante.getIdParticipante() = " + participante.getIdParticipante());
     }
 
     System.out.println("DEsde ADMON jsp idPerfil = " + idPerfil);

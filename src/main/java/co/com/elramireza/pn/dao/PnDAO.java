@@ -1236,6 +1236,22 @@ public class PnDAO extends HibernateDaoSupport{
 		return (Empleado) getHibernateTemplate().get(Empleado.class, idEmpleado);
 	}
 
+    public Empleado getLiderFromParticipante(int idParticipante){
+        Empleado empleado;
+        List lideresFromParticipante = getHibernateTemplate().find(
+                "from Empleado where participanteByIdParticipante.id = ? and perfilByIdPerfil.id = 7",
+                idParticipante);
+        if (lideresFromParticipante.size()>0) {
+            empleado = (Empleado) lideresFromParticipante.get(0);
+            logger.debug("empleado.getPersonaByIdPersona().getNombreCompleto() = " + empleado.getPersonaByIdPersona().getNombreCompleto());
+        } else {
+            empleado = new Empleado();
+            logger.debug("No hay Empleo = no hay lider = no hay persona");
+        }
+        return empleado;
+
+    }
+
     public Empleado getEmpleadoFromValores(int idPersona,
                                            int idParticipante,
                                            int idPerfil,
@@ -2695,7 +2711,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 		Texto texto = getTexto(nombre);
 
-		wctx.getHttpServletRequest().setAttribute("nombre", texto.getTexto1());
+		wctx.getHttpServletRequest().setAttribute("nombre", texto.getTexto2());
 		wctx.getHttpServletRequest().setAttribute("id", idParticipante);
 		String respuesta = "";
 		try {
