@@ -127,17 +127,21 @@
 <blockquote>
     <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalGlobalConsenso', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Consenso Global
-
     </span>
     <br>
     <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalCapConsenso', 17);"><img src="<%=imgSrcRepor%>" width="36">
         Consenso Cap&iacute;tulos
-
     </span>
     <br>
     <span  onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalItemsConsenso', 18);"><img src="<%=imgSrcRepor%>" width="36">
         Consenso Cuantitativa (&Iacute;tems)
-
+    </span>
+</blockquote>
+<br>
+<span class="color">Retroalimentaci&oacute;n:</span>
+<blockquote>
+    <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'informeRetro', 16);"><img src="<%=imgSrcRepor%>" width="36">
+        Informe de Retroalimentaci&oacute;n
     </span>
 </blockquote>
 <%
@@ -154,16 +158,17 @@
 <%--HOLA mundo--%>
 
 <div> <%--  PREGUNTAS  --%>
-<%
 
-    if(participante!=null){
-        Texto pregunta1 = pnManager.getTexto(25);
-        Texto pregunta2 = pnManager.getTexto(26);
-        Texto pregunta3 = pnManager.getTexto(27);
-        System.out.println("empleo.getpe = " + empleo.getPerfilByIdPerfil().getId());
-        if (empleo != null && (empleo.getPerfilByIdPerfil().getId()==3 || empleo.getPerfilByIdPerfil().getId()==1)) {
+    <%
 
-%>
+        if(participante!=null){
+            Texto pregunta1 = pnManager.getTexto(25);
+            Texto pregunta2 = pnManager.getTexto(26);
+            Texto pregunta3 = pnManager.getTexto(27);
+            System.out.println("empleo.getpe = " + empleo.getPerfilByIdPerfil().getId());
+            if(empleo != null && (empleo.getPerfilByIdPerfil().getId()==3 || empleo.getPerfilByIdPerfil().getId()==1)) {
+
+    %>
     <b>Preguntas</b>
     <br>
     <li>

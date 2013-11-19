@@ -63,6 +63,12 @@
                         for (PnSubCapitulo item: items){
                             if(idCapituloOld != item.getPnCapituloByIdCapitulo().getId()){
                                 idCapituloOld = item.getPnCapituloByIdCapitulo().getId();
+
+                                PnRetroalimentacion retroalimentacion = pnManager.getPnRetroalimentacion(
+                                        participanteByIdParticipante.getIdParticipante(),
+                                        item.getPnCapituloByIdCapitulo().getId()
+                                );
+
                     %>
                     <tr>
                         <th>
@@ -80,19 +86,67 @@
                         </th>
                     </tr>
                     <tr>
-                        <th colspan="5" class="alert-info">Fortalezas</th>
+                        <th colspan="4" class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('f','<%=item.getPnCapituloByIdCapitulo().getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Fortalezas
+                        </th>
                     </tr>
+
                     <tr>
-                        <td  colspan="5">
-                            <textarea id="fortalezas<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
+                        <td class="contenido" bgcolor="white" colspan="4">
+                            <span id="fortalezas-<%=item.getPnCapituloByIdCapitulo().getId()%>">
+                                <%=retroalimentacion.getFortalezas()%>
+                            </span>
+                            <br>
+                            <br>
+                            <a onclick="editarCualitativa('fortalezas', <%=item.getPnCapituloByIdCapitulo().getId()%>);">
+                                <img src="images/edit.png" alt="Editar">
+                                Editar
+                            </a>
                         </td>
                     </tr>
+                    <tr id="fortalezas-tr-<%=item.getPnCapituloByIdCapitulo().getId()%>" style="display:none;">
+                        <td colspan="4">
+                            <textarea id="fortalezas-text-<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('fortalezas', <%=item.getPnCapituloByIdCapitulo().getId()%>);">Guardar</a>
+                        </td></tr>
+                    <tr id="f-<%=item.getPnCapituloByIdCapitulo().getId()%>-contenido" style="display:none;">
+                        <td class="contenido" colspan="4">
+                            <%=texto19.getTexto1()%>
+                        </td>
+                    </tr>
+
+                    <%----------------------------%>
+
                     <tr>
-                        <th colspan="5" class="alert-info">Oportunidades de Mejora</th>
+                        <th colspan="4" class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('o','<%=item.getPnCapituloByIdCapitulo().getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Oportunidades de Mejora</th>
                     </tr>
                     <tr>
-                        <td colspan="5">
-                            <textarea id="oportunidades<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
+                        <td class="contenido" bgcolor="white" colspan="4">
+                            <span id="oportunidades-<%=item.getPnCapituloByIdCapitulo().getId()%>">
+                                <%=retroalimentacion.getOportunidades()%>
+                            </span>
+                            <br>
+                            <br>
+                            <a onclick="editarCualitativa('oportunidades', <%=item.getPnCapituloByIdCapitulo().getId()%>);">
+                                <img src="images/edit.png" alt="Editar">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr id="oportunidades-tr-<%=item.getPnCapituloByIdCapitulo().getId()%>" style="display:none;">
+                        <td colspan="4">
+                            <textarea id="oportunidades-text-<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('oportunidades', <%=item.getPnCapituloByIdCapitulo().getId()%>);">Guardar</a>
+                        </td></tr>
+
+                    <tr id="o-<%=item.getPnCapituloByIdCapitulo().getId()%>-contenido" style="display:none;">
+                        <td colspan="4" class="contenido">
+                            <%=texto19.getTexto2()%>
                         </td>
                     </tr>
                     <%
@@ -179,6 +233,26 @@
 
 <script type="text/javascript">
 
+    function editarCualitativa(campo, idCapitulo) {
+        pnRemoto.getPnRetroalimentacion(<%=participanteByIdParticipante.getIdParticipante()%>, idCapitulo, function(data){
+//            alert("data = " + data[campo]);
+            $("#"+campo+"-tr-"+idCapitulo).show();
+            dwr.util.setValue(campo+"-text-"+idCapitulo, data[campo]);
+        });
+    }
+
+
+    function guardaCualitativa(campo, idCapitulo){
+        var txt = dwr.util.getValue(campo+"-text-"+idCapitulo);
+//        alert("txt = " + txt);
+        pnRemoto.actualizaRetroalimentacion(<%=participanteByIdParticipante.getIdParticipante()%>, idCapitulo, txt, campo, function(data){
+//            alert("data = " + data);
+            dwr.util.setValue(campo+"-"+idCapitulo, data[campo]);
+            dwr.util.setValue(campo+"-text-"+idCapitulo, "");
+            $("#"+campo+"-tr-"+idCapitulo).hide();
+        });
+    }
+
     function saltaAVisita(){
         disableId("b2");
         pnRemoto.saltaAVisita(function(data){
@@ -201,7 +275,7 @@
 
     function guardaItems(){
         var retro = new Array();
-    <%
+    <%--<%
         for (PnCapitulo capitulo : pnManager.getPnCapitulos()){
     %>
         retro.push({
@@ -211,7 +285,7 @@
         });
     <%
         }
-    %>
+    %>--%>
 
         var dataValores = new Array();
 
@@ -269,13 +343,13 @@
         }
     %>
     dwr.util.setValue("totalM", <%=totalM%>);
-    <%
+    <%--<%
         for (PnRetroalimentacion retroalimentacion : pnManager.getPnRetroalimentaciones(empleo.getParticipanteByIdParticipante().getIdParticipante())){
     %>
     dwr.util.setValue(   "fortalezas<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea('<%=retroalimentacion.getFortalezas().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
     dwr.util.setValue("oportunidades<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea('<%=retroalimentacion.getOportunidades().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
     <%
         }
-    %>
+    %>--%>
 
 </script>

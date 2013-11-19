@@ -463,6 +463,26 @@ public class PnDAO extends HibernateDaoSupport{
         return getPnCualitativa(tipoFormato, idCapitulo, empleado);
     }
 
+    public PnRetroalimentacion actualizaRetroalimentacion(final int idParticipante,
+                                                           final int idCapitulo,
+                                                           final String txt,
+                                                           final String target){
+        getHibernateTemplate().execute(new HibernateCallback() {
+            @Override
+            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                Query query = session.createQuery(
+                        "update PnRetroalimentacion set " + target + " = ? where participanteByIdParticipante.id = ? and pnCapituloByIdPnCapitulo.id = ?"
+                );
+                query.setString(0, txt);
+                query.setInteger(1, idParticipante);
+                query.setInteger(2, idCapitulo);
+                query.executeUpdate();
+                return null;
+            }
+        });
+        return getPnRetroalimentacion(idParticipante, idCapitulo);
+    }
+
     /**
      * Get PnCualitativa
      * @param tipoFormato
@@ -499,6 +519,21 @@ public class PnDAO extends HibernateDaoSupport{
             }
         }
     }
+    
+    public PnRetroalimentacion getPnRetroalimentacion(int idParticipante,
+                                                      int idCapitulo){
+        Object o[] = {idParticipante, idCapitulo};
+
+        List<PnRetroalimentacion> retros = getHibernateTemplate().find(
+                "from PnRetroalimentacion where participanteByIdParticipante.id = ? and pnCapituloByIdPnCapitulo.id = ?",
+                o
+        );
+        if(retros.size()>0){
+            return retros.get(0);
+        } else {
+            return saveRetroalimentacionVacia( idParticipante, idCapitulo);
+        }
+    }
 
     public PnCualitativa saveCualitativaVacia(int tipoFormato,
                                               int idCapitulo,
@@ -520,10 +555,24 @@ public class PnDAO extends HibernateDaoSupport{
         cualitativa.setPendientesVisita("");
 
         Integer id = (Integer) getHibernateTemplate().save(cualitativa);
-        System.out.println("id = " + id);
+        
         cualitativa.setId(id);
-        logger.info("cualitativa.getId() = " + cualitativa.getId());
+        logger.debug("cualitativa.getId() = " + cualitativa.getId());
         return cualitativa;
+    }
+    
+    public PnRetroalimentacion saveRetroalimentacionVacia(int idParticipante,
+                                                          int idCapitulo){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        PnRetroalimentacion retroalimentacion = new PnRetroalimentacion();
+        
+        retroalimentacion.setFortalezas("");
+        retroalimentacion.setOportunidades("");
+        retroalimentacion.setParticipanteByIdParticipante(getParticipante(idParticipante));
+        retroalimentacion.setPnCapituloByIdPnCapitulo(getPnCapitulo(idCapitulo));
+        retroalimentacion.setFechaCreacion(timestamp);
+        getHibernateTemplate().save(retroalimentacion);
+        return retroalimentacion;        
     }
 
     public PnCualitativa getPnCualitativaFromEmpleadoTipoFormato(int idEmpleado,
@@ -617,8 +666,7 @@ public class PnDAO extends HibernateDaoSupport{
 		}
     }
 
-    public int saveValoracionDespuesVisitaItems(List<MyKey> valores,
-												List<MyKey> retro){
+    public int saveValoracionDespuesVisitaItems(List<MyKey> valores){
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -646,29 +694,6 @@ public class PnDAO extends HibernateDaoSupport{
                 }
             });
 
-            getHibernateTemplate().execute(new HibernateCallback() {
-                public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
-                    Query query = session.createQuery(
-                            "delete from PnRetroalimentacion where participanteByIdParticipante.idParticipante= ?"
-                    );
-                    query.setInteger(0, empleado.getParticipanteByIdParticipante().getIdParticipante()); //  PARTICIPANTE
-                    query.executeUpdate();
-                    return null;
-                }
-            });
-
-            for (MyKey key: retro){
-				logger.debug("key.getId() = " + key.getId());
-				logger.debug("key.getText() = " + key.getText());
-				logger.debug("key.getText2() = " + key.getText2());
-				PnRetroalimentacion retroalimentacion = new PnRetroalimentacion();
-				retroalimentacion.setParticipanteByIdParticipante(participanteByIdParticipante);
-				retroalimentacion.setPnCapituloByIdPnCapitulo(getPnCapitulo(key.getId()));
-				retroalimentacion.setFortalezas(key.getText());
-				retroalimentacion.setOportunidades(key.getText2());
-				retroalimentacion.setFechaCreacion(timestamp);
-				getHibernateTemplate().save(retroalimentacion);
-			}
             for (MyKey key: valores){
                 PnCuantitativa valor = new PnCuantitativa();
                 valor.setTipoFormatoByIdTipoFormato(getTipoFormato(5)); // items Consenso

@@ -252,6 +252,8 @@
             <dwr:include method="actualizaCualitativa"/>
             <dwr:include method="cambiaP"/>
             <dwr:include method="responderPreguntasP"/>
+            <dwr:include method="getPnRetroalimentacion"/>
+            <dwr:include method="actualizaRetroalimentacion"/>
 
             <!--LOS QUE NO VAN-->
             <!--
@@ -295,6 +297,7 @@
             <dwr:convert class="co.com.elramireza.pn.model.TipoEmpresa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.TipoFormato" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnEtapaParticipante" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnRetroalimentacion" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.util.MyKey" type="bean"/>
 
             <dwr:convert class="java.io.File" type="bean"/>

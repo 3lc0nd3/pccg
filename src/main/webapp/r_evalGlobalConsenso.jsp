@@ -4,12 +4,12 @@
 
 
 <%
-    System.out.println("Dentro del jsp");
+//    System.out.println("Dentro del jsp");
 
     int idParticipante;
 
     String id = request.getParameter("id");
-    System.out.println("id Parameter = " + id);
+//    System.out.println("id Parameter = " + id);
     String nombre = "";
     if (id == null) { // NO VIENE DE FRONT
         idParticipante = (Integer) request.getAttribute("id");
@@ -17,21 +17,21 @@
         idParticipante = Integer.parseInt(id);
     }
     nombre      = (String)  request.getAttribute("nombre");
-    System.out.println("nombre2222 = " + nombre);
+//    System.out.println("nombre2222 = " + nombre);
 
-    System.out.println("idParticipante = " + idParticipante);
+//    System.out.println("idParticipante = " + idParticipante);
 
     Empleado empleado = pnManager.getLiderFromParticipante(idParticipante);
 
     List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoGlobalFromEmpleado(
             empleado.getIdEmpleado());
-    System.out.println("fromParticipante.size() = " + fromParticipante.size());
-    System.out.println("empleado.getIdEmpleado() = " + empleado.getIdEmpleado());
+//    System.out.println("fromParticipante.size() = " + fromParticipante.size());
+//    System.out.println("empleado.getIdEmpleado() = " + empleado.getIdEmpleado());
 
     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
             empleado.getIdEmpleado(), 4 // FORMATO 1 INDIVIDUAL
     );
-    System.out.println("cualitativa = " + cualitativa);
+//    System.out.println("cualitativa = " + cualitativa);
     if (cualitativa!= null) {
 %>
 <br>
