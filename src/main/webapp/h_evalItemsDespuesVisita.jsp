@@ -303,7 +303,7 @@
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
         disableId("b1");
 
-        pnRemoto.saveValoracionDespuesVisitaItems(dataValores, retro, function(data){
+        pnRemoto.saveValoracionDespuesVisitaItems(dataValores, function(data){
             if(data == 1){
                 alert("Registro Correcto");
                 window.location = "evalItemsDespuesVisita.htm";
