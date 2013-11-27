@@ -143,6 +143,11 @@
     <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'informeRetro', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Informe de Retroalimentaci&oacute;n
     </span>
+    <br>
+    <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalItemsFinal', 16);"><img src="<%=imgSrcRepor%>" width="36">
+        Cuantitativa (&Iacute;tems) Final
+    </span>
+    <br>
 </blockquote>
 <%
     }
