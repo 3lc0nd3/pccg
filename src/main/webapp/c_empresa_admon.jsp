@@ -122,6 +122,17 @@
     %>
 </blockquote>
 
+<%
+    if(empleo!=null &&
+            (
+                    empleo.getPerfilByIdPerfil().getId() == 1
+                    ||
+                            empleo.getPerfilByIdPerfil().getId() == 7
+            )
+            )
+    {
+
+%>
 <br>
 <span class="color">Consenso:</span>
 <blockquote>
@@ -137,6 +148,11 @@
         Consenso Cuantitativa (&Iacute;tems)
     </span>
 </blockquote>
+
+<%
+    }
+%>
+
 <br>
 <span class="color">Retroalimentaci&oacute;n:</span>
 <blockquote>
