@@ -29,7 +29,7 @@
 //    System.out.println("empleado.getIdEmpleado() = " + empleado.getIdEmpleado());
 
     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
-            empleado.getIdEmpleado(), 4 // FORMATO 1 INDIVIDUAL
+            empleado.getIdEmpleado(), 6 // Consenso Items Global
     );
 //    System.out.println("cualitativa = " + cualitativa);
     if (cualitativa!= null) {
@@ -63,7 +63,9 @@
                 oldCategoriaCriterio = v.getPnCriterioByIdPnCriterio().getPnCategoriaCriterioByIdCategoriaCriterio().getId();
     %>
     <tr>
-        <th align="center" colspan="2" class="btn-inverse"><%=v.getPnCriterioByIdPnCriterio().getPnCategoriaCriterioByIdCategoriaCriterio().getCategoriaCriterio()%></th>
+        <th align="center" colspan="2" class="btn-inverse">
+            <%=v.getPnCriterioByIdPnCriterio().getPnCategoriaCriterioByIdCategoriaCriterio().getCategoriaCriterio()%>
+        </th>
     </tr>
     <%
             }
