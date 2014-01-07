@@ -160,10 +160,20 @@
         Informe de Retroalimentaci&oacute;n
     </span>
     <br>
+    <%
+        if(empleo!=null && (
+                empleo.getPerfilByIdPerfil().getId() == 1
+                        ||
+                        empleo.getPerfilByIdPerfil().getId() == 7
+        )){
+    %>
     <span onclick="cargaResultadoConcenso(<%=participante.getIdParticipante()%>,'evalItemsFinal', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Cuantitativa (&Iacute;tems) Final
     </span>
     <br>
+    <%
+        }
+    %>
 </blockquote>
 <%
     }
