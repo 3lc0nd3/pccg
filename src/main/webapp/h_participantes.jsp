@@ -175,7 +175,7 @@
         if (idParticipante == 1) {
             alert("No puedes hacer eso");
         } else {
-            if (confirm("Esto elimina el Participante y puede perder los datos relacionados")) {
+            if (confirm("Esto elimina el Participante y puede perder los datos relacionados, continuar?")) {
                 pnRemoto.desvincularParticipante(idParticipante, function(data) {
                     if (data == 1) {
                         alert("Desvinculado Completo");

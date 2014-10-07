@@ -198,8 +198,6 @@
             Texto pregunta3 = pnManager.getTexto(27);
             if(empleo != null && (empleo.getPerfilByIdPerfil().getId()==3 || empleo.getPerfilByIdPerfil().getId()==1)) {
             System.out.println("empleo.getpe = " + empleo.getPerfilByIdPerfil().getId());
-
-
     %>
     <b>Preguntas</b>
     <br>
