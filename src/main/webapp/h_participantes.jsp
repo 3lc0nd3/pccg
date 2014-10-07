@@ -175,14 +175,16 @@
         if (idParticipante == 1) {
             alert("No puedes hacer eso");
         } else {
-            pnRemoto.desvincularParticipante(idParticipante, function(data) {
-                if (data == 1) {
-                    alert("Desvinculado Completo");
-                    window.location = "participantes.htm";
-                } else {
-                    alert("Problemas ! Tal ves tenga Empleados Asociados o Evaluaciones Realizadas");
-                }
-            });
+            if (confirm("Esto elimina el Participante y puede perder los datos relacionados")) {
+                pnRemoto.desvincularParticipante(idParticipante, function(data) {
+                    if (data == 1) {
+                        alert("Desvinculado Completo");
+                        window.location = "participantes.htm";
+                    } else {
+                        alert("Problemas ! Tal ves tenga Empleados Asociados o Evaluaciones Realizadas");
+                    }
+                });
+            }
         }
     }
 
