@@ -4,12 +4,19 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+    Empleado empleo = (Empleado) session.getAttribute("empleo");
     Integer idPremio = (Integer) request.getAttribute("idPremio");
+
     boolean excel = false;
     if (idPremio == null) {
         idPremio = Integer.parseInt(request.getParameter("idPremio"));
         excel = true;
     }
+    if(empleo==null){
+        idPremio=0;
+    }
+    if(empleo!=null){
+
 
     PnPremio premio = pnManager.getPnPremio(idPremio);
     if (excel) {
@@ -199,3 +206,6 @@
     }
 %>
 </table>
+<%
+    }
+%>

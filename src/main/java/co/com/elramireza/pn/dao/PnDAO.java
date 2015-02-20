@@ -2275,9 +2275,11 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public PnPremio getPnPremio(int id){
 		PnPremio premio = (PnPremio) getHibernateTemplate().get(PnPremio.class, id);
-		premio.setTmpFechaDesde(df.format(premio.getFechaDesde()));
-		premio.setTmpFechaHasta(df.format(premio.getFechaHasta()));
-		return premio;
+        if (premio!=null) {
+            premio.setTmpFechaDesde(df.format(premio.getFechaDesde()));
+            premio.setTmpFechaHasta(df.format(premio.getFechaHasta()));
+        }
+        return premio;
 	}
 
 	public Participante getParticipante(int idParticipante){
