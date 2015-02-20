@@ -2424,7 +2424,7 @@ public class PnDAO extends HibernateDaoSupport{
                 getMD5(password)
         };
         List<Persona> personas =  getHibernateTemplate().find(
-                "from Persona where emailPersonal = ? and password = ?",
+                "from Persona where emailPersonal = ? and password = ? and estado=true ",
                 o);
         if(personas.size() == 0){
             return null;
