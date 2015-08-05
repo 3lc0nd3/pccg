@@ -2478,7 +2478,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 	String email[][] = {
 			{"", ""},
-			{"premiogestion@gmail.com", "corca*123", "Mensajes PCCG"},
+			{"premiogestion@gmail.com", "/*corca*123*/", "Mensajes PCCG"},
 			{  "", ""},
 			{"5", "6"}
 	};
